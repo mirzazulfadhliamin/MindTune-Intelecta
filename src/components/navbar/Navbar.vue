@@ -18,8 +18,7 @@
         <div class="flex items-center space-x-4">
           <ToggleSwitch class="h-full"/>
           <button
-            class="px-4 py-2 text-sm font-medium text-white rounded-lg shadow-md hover:shadow-lg transition-all flex items-center space-x-2"
-            :class="mode == 'healing' ? 'bg-[var(--accent)]': 'bg-[var(--accent)]'"
+            class="px-4 py-2 bg-[var(--main-color)] text-sm font-medium text-white rounded-lg shadow-md hover:shadow-lg transition-all flex items-center space-x-2"
           >
           <div class="w-6">
             <img src="../../assets/Spotify (1).svg" alt="">
