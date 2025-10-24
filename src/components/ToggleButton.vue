@@ -16,7 +16,7 @@
         <svg
           v-if="mode === 'healing'"
           xmlns="http://www.w3.org/2000/svg"
-          class="w-4 h-4 text-[var(--accent)]"
+          class="w-4 h-4 text-[var(--main-color)]"
           fill="none"
           stroke="currentColor"
           stroke-width="2"
@@ -31,7 +31,7 @@
         <svg
           v-else
           xmlns="http://www.w3.org/2000/svg"
-          class="w-4 h-4 text-[var(--accent)]"
+          class="w-4 h-4 text-[var(--main-color)]"
           fill="none"
           stroke="currentColor"
           stroke-width="2"
@@ -46,7 +46,7 @@
       </div>
     </div>
     <div
-      class="hidden sm:block text-xs font-medium transition-colors duration-300 text-[var(--accent)]"
+      class="hidden sm:block text-xs font-medium transition-colors duration-300 text-[var(--main-color)]"
     >
       {{ mode.charAt(0).toUpperCase() + mode.slice(1) }}
     </div>
