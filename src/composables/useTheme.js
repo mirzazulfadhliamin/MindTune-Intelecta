@@ -8,7 +8,7 @@ export function useTheme() {
 
     if (mode.value === "healing") {
       root.style.setProperty("--bg", "#e3f2fd");
-      root.style.setProperty("--bg-white", "#E3F2FD");
+      root.style.setProperty("--bg-white", "#fbfbfb");
       root.style.setProperty("--main-color", "#2F80ED");
       root.style.setProperty("--t-white", "#ffffff");
       root.style.setProperty("--t-grey", "#374151");

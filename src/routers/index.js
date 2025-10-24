@@ -1,9 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 
-import UserLayout from '@/components/layouts/UserLayout.vue';
+import UserLayout from '@/views/layouts/UserLayout.vue';
 
 import HomeView from '@/views/HomeView.vue';
+import MoodSlider from '@/views/MoodSliderView.vue';
 import PageNotFound from '@/views/error/PageNotFound.vue';
 
 const routes = [
@@ -16,6 +17,12 @@ const routes = [
         name: 'home',
         component: HomeView,
         meta: { title: 'Home' }
+      },
+       {
+        path: '/mood-slider',
+        name: 'moodSlider',
+        component: MoodSlider,
+        meta: { title: 'MoodSlider' }
       },
     ]
   },
