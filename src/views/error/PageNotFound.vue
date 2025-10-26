@@ -1,20 +1,30 @@
 <template>
-  <div class="min-h-screen flex flex-col items-center justify-center bg-white text-center px-4">
-    <h1 class="text-7xl font-extrabold bg-[var(--main-color)]">404</h1>
-    <p class="mt-4 text-xl font-semibold bg-[var(--main-color)]">Oops! That page can’t be found</p>
-    <p class="mt-2 bg-[var(--main-color)]">The page you are looking for it maybe deleted</p>
-
-    <router-link
-      to="/"
-      class="mt-6 inline-block px-6 py-2 border border-[var(--main-color)] text-[var(--main-color)] font-medium rounded-md hover:bg-blue-500 hover:text-white transition-colors"
-    >
-      Go To Home
-    </router-link>
+  <div class="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+    <div class="text-center">
+      <h1 class="text-9xl font-bold text-blue-500 mb-4">404</h1>
+      <h2 class="text-2xl font-semibold text-gray-800 mb-3">
+        Oops! That page can't be found
+      </h2>
+      <p class="text-gray-600 mb-8">
+        The page you are looking do not exist
+      </p>
+      <button
+          @click="goToHome"
+          class="px-6 py-3 bg-white text-blue-500 border border-blue-500 rounded-md font-medium hover:bg-blue-500 hover:text-white transition-colors duration-300 cursor-pointer"
+      >
+        Go To Home
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "PageNotFound"
+  name: "PageNotFound",
+  methods: {
+    goToHome() {
+      this.$router.push('/')
+    }
+  }
 }
 </script>

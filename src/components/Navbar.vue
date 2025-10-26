@@ -1,12 +1,12 @@
 <template>
   <nav
-    class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200"
+    class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200"
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16">
         <div class="flex items-center space-x-8">
           <button class="flex items-center space-x-2 group">
-            <div class="w-16">
+            <div class="w-30">
               <img
                 :src="mode === 'healing' ? logo1 : logo2"
                 alt="MindTuneLogo"
@@ -19,7 +19,7 @@
           <ToggleSwitch class="h-full" />
           <button
             v-if="!isLogin"
-            class="px-4 py-2 bg-[var(--main-color)] text-sm font-medium text-white rounded-lg shadow-md hover:shadow-lg transition-all flex items-center space-x-2"
+            class="cursor-pointer px-4 py-2 bg-[var(--main-color)] text-sm font-medium text-white rounded-lg shadow-md hover:shadow-lg transition-all flex items-center space-x-2"
           >
             <div class="w-6">
               <img src="@/assets/Spotify (1).svg" alt="Spotify">

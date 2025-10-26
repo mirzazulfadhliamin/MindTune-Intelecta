@@ -6,6 +6,8 @@ import UserLayout from '@/views/layouts/UserLayout.vue';
 import HomeView from '@/views/HomeView.vue';
 import MoodSlider from '@/views/MoodSliderView.vue';
 import PageNotFound from '@/views/error/PageNotFound.vue';
+import QuestionnaireView from "@/views/QuestionnaireView.vue";
+import ProfessionalConsultationView from "@/views/ProfessionalConsultationView.vue";
 
 const routes = [
   {
@@ -17,6 +19,18 @@ const routes = [
         name: 'home',
         component: HomeView,
         meta: { title: 'Home' }
+      },
+      {
+        path: '/questionnaire',
+        name: 'questionnaire',
+        component: QuestionnaireView,
+        meta: { title: 'Questionnaire' }
+      },
+      {
+        path: '/professional-consultation',
+        name: 'professionalconsultation',
+        component: ProfessionalConsultationView,
+        meta: { title: 'ProfessionalConsultation' }
       },
        {
         path: '/mood-slider',

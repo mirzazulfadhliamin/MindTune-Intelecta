@@ -1,17 +1,23 @@
 <template>
   <div
-    class="flex items-center space-x-4 cursor-pointer select-none"
-    @click="toggleTheme"
+      class="hidden sm:block text-xs font-medium transition-colors duration-300 text-[var(--main-color)]"
+  >
+    {{ mode.charAt(0).toUpperCase() + mode.slice(1) }}
+  </div>
+  <div
+    class="flex items-center space-x-4 select-none mr-10"
+
   >
     <div
-      class="relative w-16 h-8 rounded-full transition-colors duration-300 hover:shadow-md"
+      class="relative w-16 h-8 rounded-full transition-colors duration-300"
       :class="mode === 'healing' ? 'bg-[var(--bg)]' : 'bg-[var(--bg)]'"
     >
       <div
-        class="absolute top-1 left-1 w-6 h-6 rounded-full bg-white shadow-md flex items-center justify-center transition-transform duration-300"
+        class="cursor-pointer absolute top-1 left-1 w-6 h-6 rounded-full bg-white shadow-md flex items-center justify-center transition-transform duration-300"
         :style="{
           transform: mode === 'healing' ? 'translateX(0px)' : 'translateX(32px)',
         }"
+        @click="toggleTheme"
       >
         <svg
           v-if="mode === 'healing'"
@@ -45,11 +51,7 @@
         </svg>
       </div>
     </div>
-    <div
-      class="hidden sm:block text-xs font-medium transition-colors duration-300 text-[var(--main-color)]"
-    >
-      {{ mode.charAt(0).toUpperCase() + mode.slice(1) }}
-    </div>
+
   </div>
 </template>
 
