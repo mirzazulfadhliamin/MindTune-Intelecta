@@ -12,6 +12,7 @@ import PlaylistDetail from "@/views/PlaylistDetailView.vue";
 import PlaylistDetailView from "@/views/PlaylistDetailView.vue";
 import PlaylistResult from "@/views/playlistResultView.vue";
 import FeedbackView from '@/views/FeedbackView.vue';
+import CallbackView from '@/views/CallbackView.vue';
 
 const routes = [
   {
@@ -23,6 +24,12 @@ const routes = [
         name: 'home',
         component: HomeView,
         meta: { title: 'Home' }
+      },
+      {
+        path: '/callback',
+        name: 'callback',
+        component: CallbackView,
+        meta: { title: 'Login Callback' }
       },
       {
         path: '/questionnaire',
