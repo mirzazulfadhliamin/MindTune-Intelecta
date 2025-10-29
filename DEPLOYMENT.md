@@ -97,8 +97,6 @@ sudo ufw status
 
 ## Mengupload Kode Aplikasi
 
-### Metode 1: Menggunakan Git
-
 1. Buat repository Git untuk proyek Anda (jika belum ada)
 2. Push kode ke repository (GitHub, GitLab, dll)
 3. Clone repository ke VPS:
@@ -112,17 +110,6 @@ sudo chown -R $USER:$USER /var/www/mindtune
 cd /var/www/mindtune
 git clone https://github.com/username/mindtune-intelecta.git .
 ```
-
-### Metode 2: Menggunakan SCP/SFTP
-
-1. Dari komputer lokal, gunakan SCP untuk mentransfer file:
-
-```bash
-# Dari direktori proyek lokal
-scp -r ./* username@your_vps_ip:/var/www/mindtune/
-```
-
-Atau gunakan klien SFTP seperti FileZilla untuk mengupload file.
 
 ## Membangun Aplikasi
 
