@@ -8,6 +8,8 @@ import MoodSlider from '@/views/MoodSliderView.vue';
 import PageNotFound from '@/views/error/PageNotFound.vue';
 import QuestionnaireView from "@/views/QuestionnaireView.vue";
 import ProfessionalConsultationView from "@/views/ProfessionalConsultationView.vue";
+import PlaylistDetail from "@/views/PlaylistDetailView.vue";
+import PlaylistDetailView from "@/views/PlaylistDetailView.vue";
 import PlaylistResult from "@/views/playlistResultView.vue";
 import FeedbackView from '@/views/FeedbackView.vue';
 
@@ -33,6 +35,12 @@ const routes = [
         name: 'professionalconsultation',
         component: ProfessionalConsultationView,
         meta: { title: 'ProfessionalConsultation' }
+      },
+      {
+        path: '/playlist-detail',
+        name: 'playlist-detail',
+        component: PlaylistDetailView,
+        meta: { title: 'PlaylistDetailView' }
       },
        {
         path: '/mood-slider',
