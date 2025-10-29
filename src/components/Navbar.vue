@@ -84,21 +84,33 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import logo1 from '@/assets/1.svg'
 import logo2 from '@/assets/2.svg'
 import ToggleSwitch from "@/components/ToggleButton.vue"
 import { useTheme } from "@/composables/useTheme"
 import { useAuth } from "@/composables/useAuth"
 
+const route = useRoute()
 const { mode } = useTheme()
 const { isAuthenticated, getLoginUrl } = useAuth()
 const isLogin = ref(false)
 const showUserMenu = ref(false)
 
+// Fungsi untuk memperbarui status login
+const updateLoginStatus = () => {
+  isLogin.value = isAuthenticated()
+}
+
 // Periksa status login saat komponen dimount
 onMounted(() => {
-  isLogin.value = isAuthenticated()
+  updateLoginStatus()
+})
+
+// Perbarui status login setiap kali rute berubah
+watch(() => route.fullPath, () => {
+  updateLoginStatus()
 })
 
 const toggleUserMenu = () => {
