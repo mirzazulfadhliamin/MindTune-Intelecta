@@ -1,75 +1,90 @@
 <template>
-  <div class="bg-[var(--bg-white)] rounded-2xl shadow-lg p-8 max-w-3xl mx-auto transition-all duration-300 hover:shadow-2xl ">
+  <div
+    class="bg-[var(--bg-white)] rounded-2xl shadow-lg p-8 max-w-3xl mx-auto transition-all duration-300 hover:shadow-2xl mt-4"
+  >
     <div class="space-y-8">
-      <div class="align-middle">
-        <h1 class="text-[var(--main-color)] text-3xl font-bold">Your Personalized Healing Playlist</h1>
+      <div class="text-center space-y-2 mb-8">
+        <h1 class="text-2xl sm:text-3xl font-bold text-[var(--main-color)]">
+          Your Personalized Healing Playlist
+        </h1>
+        <p class="text-[var(--t-gray)]">
+          Based on your mental wellness assessment, we've curated these tracks for you.
+        </p>
       </div>
-      <!-- Section: Assessment -->
-      <div class="rounded-xl p-6 bg-orange-50 border border-orange-200 flex items-start space-x-4">
-        <div class="flex-shrink-0 text-orange-500">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="w-7 h-7"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path
-              d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
-            />
-          </svg>
-        </div>
-        <div>
-          <h3 class="font-semibold text-gray-800 text-lg mb-2">
-            Your Mental Health Assessment
-          </h3>
-          <p class="text-gray-700 mb-2 leading-relaxed">
-            You seem to be going through a challenging time. Remember, you're not alone.
-          </p>
-          <p class="text-sm text-gray-600">
-            Gentle, soothing music can help. Consider reaching out to someone you trust.
-          </p>
-        </div>
-      </div>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <div
+          class="flex-1 rounded-2xl border border-[var(--bg-green)] bg-[var(--bg-green)]/40 p-6 text-center shadow-sm"
+        >
+          <div class="flex flex-col items-center space-y-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-6 h-6 text-[var(--dark-green)]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M22 7L14.1314 14.8686C13.7354 15.2646 13.5373 15.4627 13.309 15.5368C13.1082 15.6021 12.8918 15.6021 12.691 15.5368C12.4627 15.4627 12.2646 15.2646 11.8686 14.8686L9.13137 12.1314C8.73535 11.7354 8.53735 11.5373 8.30902 11.4632C8.10817 11.3979 7.89183 11.3979 7.69098 11.4632C7.46265 11.5373 7.26465 11.7354 6.86863 12.1314L2 17M22 7H15M22 7V14"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
 
-      <!-- Section: Playlist -->
-      <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-6 text-white shadow-lg">
+            <p class="text-sm text-[var(--t-gray)]">Depression Level</p>
+            <p class="text-2xl font-semibold text-[var(--dark-green)]">3/27</p>
+            <p class="text-sm text-[var(--dark-green)]">Minimal</p>
+          </div>
+        </div>
+        <div
+          class="flex-1 rounded-2xl border border-[var(--main-color)]/20 bg-[var(--main-color)]/10 p-6 text-center shadow-sm"
+        >
+          <div class="flex flex-col items-center space-y-2">
+            <span class="text-2xl">😌</span>
+            <p class="text-sm text-[var(--t-gray)]">Current Mood</p>
+            <p class="text-lg font-semibold text-[var(--main-color)]">Moderate</p>
+          </div>
+        </div>
+      </div>
+      <div
+        class=" bg-[var(--main-color)] rounded-xl p-6 text-[var(--t-white)] shadow-lg"
+      >
         <div class="flex items-center space-x-3 mb-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="w-6 h-6 text-blue-100"
+            class="w-6 h-6 text-[var(--t-white)]/80"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
             stroke-width="2"
           >
-            <path d="M9 18V5l12-2v13"></path>
-            <circle cx="6" cy="18" r="3"></circle>
-            <circle cx="18" cy="16" r="3"></circle>
+            <path d="M9 18V5l12-2v13" />
+            <circle cx="6" cy="18" r="3" />
+            <circle cx="18" cy="16" r="3" />
           </svg>
           <h3 class="text-xl font-bold">Your Healing Playlist is Ready!</h3>
         </div>
 
-        <p class="text-blue-100 mb-4">Healing Journey — 10/25/2025</p>
+        <p class="opacity-80 mb-4">Healing Journey — 10/25/2025</p>
 
         <div class="grid grid-cols-3 gap-4 mb-6 text-sm">
           <div>
-            <p class="text-blue-200">Duration</p>
+            <p class="opacity-70">Duration</p>
             <p class="font-semibold">15 minutes</p>
           </div>
           <div>
-            <p class="text-blue-200">Genre</p>
+            <p class="opacity-70">Genre</p>
             <p class="font-semibold">Lo-fi Chill, Acoustic</p>
           </div>
           <div>
-            <p class="text-blue-200">Mood Score</p>
+            <p class="opacity-70">Mood Score</p>
             <p class="font-semibold">5/10</p>
           </div>
         </div>
 
         <button
-          class="w-full py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-all flex items-center justify-center space-x-2 shadow-sm"
+          class="w-full py-3 bg-[var(--t-white)] text-[var(--main-color)] rounded-lg font-semibold hover:bg-[var(--bg-white)] transition-all flex items-center justify-center space-x-2 shadow-sm"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -82,22 +97,15 @@
             <path
               d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"
             ></path>
-            <path d="M5 3v4"></path>
-            <path d="M19 17v4"></path>
-            <path d="M3 5h4"></path>
-            <path d="M17 19h4"></path>
           </svg>
           <span>Open in Spotify</span>
         </button>
       </div>
-
-      <!-- Button: Create Another -->
       <button
-        class="w-full py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 active:scale-[0.98] transition-all"
+        class="w-full py-3 border border-[var(--silver)] text-[var(--t-gray)] rounded-lg font-medium hover:bg-[var(--bg)] active:scale-[0.98] transition-all"
       >
         Create Another Playlist
       </button>
-
     </div>
   </div>
 </template>
