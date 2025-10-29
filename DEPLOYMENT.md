@@ -61,13 +61,13 @@ sudo apt upgrade -y
 ### Instal Dependensi yang Diperlukan
 
 ```bash
-# Instal Node.js dan npm
+# Instal Node.js dan npm (versi 20.x diperlukan untuk Vite 7.x dan plugin Vue 6.x)
 sudo apt install -y curl
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 sudo apt install -y nodejs
 
 # Verifikasi instalasi
-node -v
+node -v  # Pastikan versi minimal 20.19.0
 npm -v
 
 # Instal Git
@@ -250,6 +250,9 @@ cd /var/www/mindtune
 # Jika menggunakan Git
 git pull
 
+# Pastikan Node.js versi sesuai kebutuhan
+node -v  # Pastikan versi minimal 20.19.0
+
 # Instal dependensi baru (jika ada)
 npm install
 
@@ -295,6 +298,15 @@ sudo tar -czf /backup/mindtune-$(date +%Y%m%d).tar.gz /var/www/mindtune /etc/ngi
 4. **Sertifikat SSL tidak berfungsi**:
    - Jalankan: `sudo certbot --nginx`
    - Periksa tanggal kedaluwarsa: `sudo certbot certificates`
+
+5. **Peringatan EBADENGINE saat npm install**:
+   - Ini terjadi karena ketidakcocokan versi Node.js dengan yang dibutuhkan oleh Vite dan plugin Vue
+   - Solusi: Upgrade Node.js ke versi 20.x atau lebih baru dengan perintah:
+     ```bash
+     curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+     sudo apt install -y nodejs
+     ```
+   - Alternatif: Downgrade Vite dan plugin Vue di package.json ke versi yang kompatibel dengan Node.js 18.x
 
 ## Kesimpulan
 
