@@ -89,18 +89,16 @@ import logo1 from '@/assets/1.svg'
 import logo2 from '@/assets/2.svg'
 import ToggleSwitch from "@/components/ToggleButton.vue"
 import { useTheme } from "@/composables/useTheme"
-import axios from 'axios'
+import { useAuth } from "@/composables/useAuth"
 
 const { mode } = useTheme()
+const { isAuthenticated, getLoginUrl } = useAuth()
 const isLogin = ref(false)
 const showUserMenu = ref(false)
 
 // Periksa status login saat komponen dimount
 onMounted(() => {
-  const loginStatus = localStorage.getItem('isLogin')
-  if (loginStatus === 'true') {
-    isLogin.value = true
-  }
+  isLogin.value = isAuthenticated()
 })
 
 const toggleUserMenu = () => {
@@ -114,8 +112,7 @@ const goToDashboard = () => {
 
 const handleLogin = async () => {
   try {
-    const response = await axios.get('https://mindtune-api.syahranfd.cloud/api/users/login')
-    const { auth_url } = response.data
+    const auth_url = await getLoginUrl()
     window.location.href = auth_url
   } catch (error) {
     console.error('Error during login:', error)
@@ -124,10 +121,9 @@ const handleLogin = async () => {
 
 const handleLogout = () => {
   console.log('Logout clicked')
-  // Hapus token dan status login dari localStorage
-  localStorage.removeItem('access_token')
-  localStorage.removeItem('refresh_token')
-  localStorage.removeItem('isLogin')
+  // Gunakan fungsi logout dari useAuth
+  const { logout } = useAuth()
+  logout()
   isLogin.value = false
   showUserMenu.value = false
 }
