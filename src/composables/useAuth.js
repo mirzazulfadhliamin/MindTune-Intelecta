@@ -104,9 +104,32 @@ export const useAuth = () => {
       localStorage.setItem('refresh_token', refresh_token);
       localStorage.setItem('isLogin', 'true');
       
+      console.log(access_token);
+      
       return { access_token, refresh_token };
     } catch (error) {
       console.error('Error exchanging code for token:', error);
+      throw error;
+    }
+  };
+  
+  // Fungsi untuk mendapatkan data profil pengguna
+  const getUserProfile = async () => {
+    try {
+      const token = localStorage.getItem('access_token');
+      if (!token) {
+        throw new Error('Token tidak tersedia');
+      }
+      
+      const response = await axios.get('https://mindtune-api.syahranfd.cloud/api/users/me', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      return response.data;
+    } catch (error) {
+      console.error('Error getting user profile:', error);
       throw error;
     }
   };
@@ -116,7 +139,8 @@ export const useAuth = () => {
     isAuthenticated,
     logout,
     getLoginUrl,
-    exchangeCodeForToken
+    exchangeCodeForToken,
+    getUserProfile
   };
 };
 
