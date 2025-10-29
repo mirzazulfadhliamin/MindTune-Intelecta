@@ -19,6 +19,7 @@
           <ToggleSwitch class="h-full" />
           <button
             v-if="!isLogin"
+            @click="handleLogin"
             class="cursor-pointer px-4 py-2 bg-[var(--main-color)] text-sm font-medium text-white rounded-lg shadow-md hover:shadow-lg transition-all flex items-center space-x-2"
           >
             <div class="w-6">
@@ -88,6 +89,7 @@ import logo1 from '@/assets/1.svg'
 import logo2 from '@/assets/2.svg'
 import ToggleSwitch from "@/components/ToggleButton.vue"
 import { useTheme } from "@/composables/useTheme"
+import axios from 'axios'
 
 const { mode } = useTheme()
 const isLogin = ref(false)
@@ -100,6 +102,16 @@ const toggleUserMenu = () => {
 const goToDashboard = () => {
   console.log('Navigate to dashboard')
   showUserMenu.value = false
+}
+
+const handleLogin = async () => {
+  try {
+    const response = await axios.get('https://mindtune-api.syahranfd.cloud/api/users/login')
+    const { auth_url } = response.data
+    window.location.href = auth_url
+  } catch (error) {
+    console.error('Error during login:', error)
+  }
 }
 
 const handleLogout = () => {
