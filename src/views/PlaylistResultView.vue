@@ -11,14 +11,14 @@
           Based on your mental wellness assessment, we've curated these tracks for you.
         </p>
       </div>
-      <div class="flex flex-col sm:flex-row gap-4">
+      <div class="flex flex-col sm:flex-row gap-4 mx-4">
         <div
-          class="flex-1 rounded-2xl border border-[var(--bg-green)] bg-[var(--bg-green)]/40 p-6 text-center shadow-sm"
+          class="flex-1 rounded-xl border border-[var(--bg-green)] bg-[var(--bg-green)]/40 p-4 text-center shadow-sm"
         >
-          <div class="flex flex-col items-center space-y-2">
+          <div class="flex flex-col items-center space-y-1.5">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="w-6 h-6 text-[var(--dark-green)]"
+              class="w-5 h-5 text-[var(--dark-green)]"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -32,24 +32,24 @@
               />
             </svg>
 
-            <p class="text-sm text-[var(--t-gray)]">Depression Level</p>
-            <p class="text-2xl font-semibold text-[var(--dark-green)]">3/27</p>
-            <p class="text-sm text-[var(--dark-green)]">Minimal</p>
+            <p class="text-xs text-[var(--t-gray)]">Depression Level</p>
+            <p class="text-lg font-semibold text-[var(--dark-green)]">3/27</p>
+            <p class="text-xs text-[var(--dark-green)]">Minimal</p>
           </div>
         </div>
         <div
-          class="flex-1 rounded-2xl border border-[var(--main-color)]/20 bg-[var(--main-color)]/10 p-6 text-center shadow-sm"
+          class="flex-1 rounded-xl border border-[var(--main-color)]/20 bg-[var(--main-color)]/10 p-4 text-center shadow-sm"
         >
-          <div class="flex flex-col items-center space-y-2">
-            <span class="text-2xl">😌</span>
-            <p class="text-sm text-[var(--t-gray)]">Current Mood</p>
-            <p class="text-lg font-semibold text-[var(--main-color)]">Moderate</p>
+          <div class="flex flex-col items-center space-y-1.5">
+            <span class="text-xl">😌</span>
+            <p class="text-xs text-[var(--t-gray)]">Current Mood</p>
+            <p class="text-base font-semibold text-[var(--main-color)]">
+              Moderate
+            </p>
           </div>
         </div>
       </div>
-      <div
-        class=" bg-[var(--main-color)] rounded-xl p-6 text-[var(--t-white)] shadow-lg"
-      >
+      <div class="bg-[var(--main-color)] rounded-xl p-6 text-[var(--t-white)] shadow-lg">
         <div class="flex items-center space-x-3 mb-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
