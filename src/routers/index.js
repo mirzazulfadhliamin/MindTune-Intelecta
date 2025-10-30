@@ -8,10 +8,11 @@ import MoodSlider from '@/views/MoodSliderView.vue';
 import PageNotFound from '@/views/error/PageNotFound.vue';
 import QuestionnaireView from "@/views/QuestionnaireView.vue";
 import ProfessionalConsultationView from "@/views/ProfessionalConsultationView.vue";
-import PlaylistDetail from "@/views/PlaylistDetailView.vue";
 import PlaylistDetailView from "@/views/PlaylistDetailView.vue";
-import PlaylistResult from "@/views/playlistResultView.vue";
+import DashboardView from "@/views/DashboardView.vue";
+import PlaylistResult from "@/views/PlaylistResultView.vue";
 import FeedbackView from '@/views/FeedbackView.vue';
+import CallbackView from '@/views/CallbackView.vue';
 
 const routes = [
   {
@@ -25,6 +26,12 @@ const routes = [
         meta: { title: 'Home' }
       },
       {
+        path: '/callback',
+        name: 'callback',
+        component: CallbackView,
+        meta: { title: 'Login Callback' }
+      },
+      {
         path: '/questionnaire',
         name: 'questionnaire',
         component: QuestionnaireView,
@@ -32,9 +39,15 @@ const routes = [
       },
       {
         path: '/professional-consultation',
-        name: 'professionalconsultation',
+        name: 'professional-consultation',
         component: ProfessionalConsultationView,
         meta: { title: 'ProfessionalConsultation' }
+      },
+      {
+        path: '/dashboard',
+        name: 'dashboard',
+        component: DashboardView,
+        meta: { title: 'DashboardView' }
       },
       {
         path: '/playlist-detail',
