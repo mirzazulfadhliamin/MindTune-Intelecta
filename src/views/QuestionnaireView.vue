@@ -1,26 +1,26 @@
 <template>
-    <div class="flex items-center justify-center h-fit px-4 py-20">
-      <div class="max-w-4xl w-full">
-        <div class="bg-white rounded-3xl shadow-lg p-8 md:p-12 animate-card-entrance">
+    <div class="flex justify-center items-center px-4 py-20 h-fit">
+      <div class="w-full max-w-4xl">
+        <div class="p-8 bg-white rounded-3xl shadow-lg md:p-12 animate-card-entrance">
           <div
-              class="px-6 py-6 rounded-2xl mb-8 transition-colors duration-500 border"
+              class="px-6 py-6 mb-8 rounded-2xl border transition-colors duration-500"
               :class="mode === 'healing' ? 'bg-blue-50 border-blue-100' : 'bg-orange-50 border-orange-100'"
           >
             <h1
-                class="text-2xl md:text-3xl font-bold mb-2 transition-colors duration-500 flex items-center"
+                class="flex items-center mb-2 text-2xl font-bold transition-colors duration-500 md:text-3xl"
                 :class="mode === 'healing' ? 'text-blue-900' : 'text-orange-600'"
             >
               PHQ-9 Depression Screening
               <button
                   @click="showModal = true"
-                  class="cursor-pointer text-xl ml-3 hover:opacity-70 transition-opacity"
+                  class="ml-3 text-xl transition-opacity cursor-pointer hover:opacity-70"
                   :class="mode === 'healing' ? 'text-blue-900' : 'text-orange-600'"
               >
                 ⓘ
               </button>
             </h1>
             <p
-                class="text-sm md:text-base transition-colors duration-500"
+                class="text-sm transition-colors duration-500 md:text-base"
                 :class="mode === 'healing' ? 'text-blue-600' : 'text-orange-600'"
             >
               Over the last <span class="font-semibold">2 weeks</span>, how often have you been bothered by the following problems?
@@ -32,15 +32,15 @@
             <!-- Questions -->
             <div class="space-y-6">
               <div v-for="(question, index) in questions" :key="index" class="space-y-3">
-                <p class="text-gray-700 font-medium text-sm">
+                <p class="text-sm font-medium text-gray-700">
                   {{ index + 1 }}. {{ question }}
                 </p>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
                   <button
                       v-for="option in options"
                       :key="option.value"
                       @click="selectAnswer(index, option.value)"
-                      class="cursor-pointer px-4 py-3 rounded-lg border text-sm font-medium transition-all duration-200"
+                      class="px-4 py-3 text-sm font-medium rounded-lg border transition-all duration-200 cursor-pointer"
                       :class="answers[index] === option.value
                         ? (mode === 'healing' ? 'border-blue-500 bg-blue-500 text-white' : 'border-orange-500 bg-orange-500 text-white')
                         : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'"
@@ -54,7 +54,7 @@
             <!-- Loading State -->
             <div v-if="isLoading" class="mt-8 text-center">
               <div class="inline-flex items-center space-x-2">
-                <svg class="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 text-blue-500 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
@@ -63,26 +63,26 @@
             </div>
 
             <!-- Error Message -->
-            <div v-if="error" class="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <div v-if="error" class="p-4 mt-6 bg-red-50 rounded-lg border border-red-200">
               <div class="flex items-center space-x-2 text-red-700">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
                   <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
                 </svg>
                 <span class="font-medium">Error: {{ error }}</span>
               </div>
               <button
                   @click="error = ''"
-                  class="mt-2 text-sm text-red-600 hover:text-red-800 font-medium"
+                  class="mt-2 text-sm font-medium text-red-600 hover:text-red-800"
               >
                 Dismiss
               </button>
             </div>
 
             <!-- Action Buttons -->
-            <div class="flex flex-col md:flex-row gap-4 mt-10">
+            <div class="flex flex-col gap-4 mt-10 md:flex-row">
               <button
                   @click="$router.back()"
-                  class="cursor-pointer flex-1 px-6 py-4 rounded-lg text-base font-semibold border-2 transition-all duration-300"
+                  class="flex-1 px-6 py-4 text-base font-semibold rounded-lg border-2 transition-all duration-300 cursor-pointer"
                   :class="mode === 'healing'
                     ? 'border-gray-300 text-gray-700 hover:bg-gray-100 hover:shadow-md'
                     : 'border-gray-300 text-gray-700 hover:bg-gray-100 hover:shadow-md'"
@@ -93,7 +93,7 @@
               <button
                   @click="createPlaylist"
                   :disabled="isLoading || !isFormComplete"
-                  class="cursor-pointer flex-1 px-6 py-4 rounded-lg text-base font-semibold text-white transition-all duration-300 flex items-center justify-center space-x-2 shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                  class="flex flex-1 justify-center items-center px-6 py-4 space-x-2 text-base font-semibold text-white rounded-lg shadow-md transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   :class="mode === 'healing' ? 'bg-blue-500 hover:bg-blue-600 hover:shadow-lg' : 'bg-orange-500 hover:bg-orange-600 hover:shadow-lg'"
               >
                 <svg
@@ -126,12 +126,12 @@
     <div
         v-if="showModal"
         @click="showModal = false"
-        class="fixed inset-0 flex items-center justify-center z-99 px-4 animate-fade-in"
+        class="flex fixed inset-0 justify-center items-center px-4 z-99 animate-fade-in"
         style="background-color: rgba(0, 0, 0, 0.2);"
     >
       <div
           @click.stop
-          class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-8 animate-modal-entrance"
+          class="p-8 w-full max-w-2xl bg-white rounded-2xl shadow-2xl animate-modal-entrance"
       >
         <div class="flex justify-between items-start mb-4">
           <h2
@@ -142,19 +142,19 @@
           </h2>
           <button
               @click="showModal = false"
-              class="cursor-pointer text-gray-400 hover:text-gray-600 transition-colors text-2xl leading-none"
+              class="text-2xl leading-none text-gray-400 transition-colors cursor-pointer hover:text-gray-600"
           >
             ×
           </button>
         </div>
-        <div class="text-gray-700 space-y-4">
+        <div class="space-y-4 text-gray-700">
           <p>
             The <strong>Patient Health Questionnaire-9 (PHQ-9)</strong> is a widely used, validated screening tool for detecting depression. It consists of nine questions that correspond to the diagnostic criteria for major depressive disorder.
           </p>
           <p>
             <strong>How it works:</strong>
           </p>
-          <ul class="list-disc list-inside space-y-2 ml-4">
+          <ul class="ml-4 space-y-2 list-disc list-inside">
             <li>Each question asks about symptoms over the past 2 weeks</li>
             <li>Responses are scored from 0 (not at all) to 3 (nearly every day)</li>
             <li>Total scores range from 0 to 27</li>
@@ -163,14 +163,14 @@
           <p>
             <strong>Score interpretation:</strong>
           </p>
-          <ul class="list-disc list-inside space-y-2 ml-4">
+          <ul class="ml-4 space-y-2 list-disc list-inside">
             <li>0-4: Minimal depression</li>
             <li>5-9: Mild depression</li>
             <li>10-14: Moderate depression</li>
             <li>15-19: Moderately severe depression</li>
             <li>20-27: Severe depression</li>
           </ul>
-          <p class="text-sm text-gray-600 italic">
+          <p class="text-sm italic text-gray-600">
             Note: This screening tool is for informational purposes and does not replace professional medical advice. If you're experiencing depression symptoms, please consult with a healthcare provider.
           </p>
         </div>
@@ -227,46 +227,24 @@ export default {
       this.error = ''; // Clear error when user makes changes
     },
     
-    async createPlaylist() {
-        const pre_mood = this.$route.query.pre_mood || localStorage.getItem('pre_mood') || 5;
-
-        console.log("ini adalah mood ",pre_mood)
-
+    createPlaylist() {
       if (!this.isFormComplete) {
         this.error = 'Please answer all questions before creating a playlist.';
         return;
       }
 
-      this.isLoading = true;
-      this.error = '';
+      // Get pre_mood from route query or localStorage
+      const pre_mood = this.$route.query.pre_mood || localStorage.getItem('pre_mood') || 5;
+      
+      // Store data in localStorage for LoadingAnimationView to use
+      localStorage.setItem('phq9_score', this.totalScore);
+      localStorage.setItem('pre_mood', pre_mood);
+      
+      // Navigate to loading animation view
+      this.$router.push({
+        name: 'loading-animation'
+      });
 
-      try {
-        // Get pre_mood from route query or localStorage
-        const pre_mood = this.$route.query.pre_mood || localStorage.getItem('pre_mood') || 5;
-        
-        const playlistData = await playlistService.createPlaylist(
-          parseInt(pre_mood),
-          this.totalScore
-        );
-        console.log("ini data",playlistData.id)
-        console.log("ini adalah mood ",pre_mood)
-
-        // Navigate to playlist result page with the created playlist data
-        this.$router.push({
-          name: 'playlistresult',
-          query: {
-            playlistId: playlistData.id,
-            pre_mood: pre_mood,
-            phq9: this.totalScore
-          }
-        });
-
-      } catch (error) {
-        console.error('Failed to create playlist:', error);
-        this.error = error.response?.data?.message || 'Failed to create playlist. Please try again.';
-      } finally {
-        this.isLoading = false;
-      }
     }
   }
 }

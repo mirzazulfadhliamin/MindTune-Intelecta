@@ -13,5 +13,17 @@ export const playlistService = {
       console.error('Error creating playlist:', error);
       throw error;
     }
+  },
+  
+  async getPlaylistById(playlistId) {
+    try {
+      const { api } = useAuth();
+      const response = await api.get(`${API_BASE_URL}/api/playlists/${playlistId}`);
+      
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching playlist:', error);
+      throw error;
+    }
   }
 };

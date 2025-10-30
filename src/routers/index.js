@@ -45,10 +45,10 @@ const routes = [
         meta: { title: 'ProfessionalConsultation' }
       },
       {
-        path: '/loading',
-        name: 'loading',
+        path: '/loading-animation',
+        name: 'loading-animation',
         component: LoadingAnimationView,
-        meta: { title: 'Loading' }
+        meta: { title: 'Loading Animation' }
       },
       {        
         path: '/dashboard',

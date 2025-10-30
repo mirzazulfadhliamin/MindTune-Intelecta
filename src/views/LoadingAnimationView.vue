@@ -26,5 +26,43 @@
 </template>
 
 <script>
+import { playlistService } from "@/services/playlistService";
 
+export default {
+  mounted() {
+    this.createPlaylist();
+  },
+  methods: {
+    async createPlaylist() {
+      try {
+        // Get data from localStorage
+        const pre_mood = localStorage.getItem('pre_mood') || 5;
+        const phq9_score = localStorage.getItem('phq9_score') || 0;
+        
+        // Call API to create playlist
+        const playlistData = await playlistService.createPlaylist(
+          parseInt(pre_mood),
+          parseInt(phq9_score)
+        );
+        
+        // Navigate to playlist result page with the created playlist data
+        this.$router.push({
+          name: 'playlistresult',
+          query: {
+            playlistId: playlistData.id
+          }
+        });
+      } catch (error) {
+        console.error('Failed to create playlist:', error);
+        // Navigate back to questionnaire on error
+        this.$router.push({
+          name: 'questionnaire',
+          query: {
+            error: 'Failed to create playlist. Please try again.'
+          }
+        });
+      }
+    }
+  }
+};
 </script>
