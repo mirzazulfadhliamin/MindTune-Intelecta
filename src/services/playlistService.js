@@ -6,7 +6,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL;
 export const playlistService = {
   async createPlaylist(pre_mood, phq9) {
     try {
-   const response = await axios.post(
+   const response = await axios.get(
   `${API_BASE_URL}/api/playlists`,
   {
     pre_mood: parseInt(pre_mood),
