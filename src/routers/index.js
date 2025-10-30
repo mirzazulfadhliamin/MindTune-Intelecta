@@ -8,8 +8,8 @@ import MoodSlider from '@/views/MoodSliderView.vue';
 import PageNotFound from '@/views/error/PageNotFound.vue';
 import QuestionnaireView from "@/views/QuestionnaireView.vue";
 import ProfessionalConsultationView from "@/views/ProfessionalConsultationView.vue";
-import PlaylistDetail from "@/views/PlaylistDetailView.vue";
 import PlaylistDetailView from "@/views/PlaylistDetailView.vue";
+import DashboardView from "@/views/DashboardView.vue";
 
 const routes = [
   {
@@ -30,9 +30,15 @@ const routes = [
       },
       {
         path: '/professional-consultation',
-        name: 'professionalconsultation',
+        name: 'professional-consultation',
         component: ProfessionalConsultationView,
         meta: { title: 'ProfessionalConsultation' }
+      },
+      {
+        path: '/dashboard',
+        name: 'dashboard',
+        component: DashboardView,
+        meta: { title: 'DashboardView' }
       },
       {
         path: '/playlist-detail',

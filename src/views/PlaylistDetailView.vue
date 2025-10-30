@@ -1,5 +1,4 @@
 <template>
-  <div class="min-h-screen">
     <div class="max-w-6xl mx-auto px-4 py-8">
       <button
           @click="goBack"
@@ -245,7 +244,6 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
