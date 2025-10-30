@@ -26,7 +26,7 @@ api.interceptors.response.use(
         
         // Refresh token
         const response = await axios.post(
-          `https://mindtune-api.syahranfd.cloud/api/users/refresh-token?refresh_token=${refresh_token}`
+          `/api/users/refresh-token?refresh_token=${refresh_token}`
         );
         
         const { access_token, refresh_token: new_refresh_token } = response.data;
@@ -86,7 +86,7 @@ export const useAuth = () => {
   // Fungsi untuk mendapatkan login URL
   const getLoginUrl = async () => {
     try {
-      const response = await axios.get('https://mindtune-api.syahranfd.cloud/api/users/login');
+      const response = await axios.get('/api/users/login');
       return response.data.auth_url;
     } catch (error) {
       console.error('Error getting login URL:', error);
@@ -97,7 +97,7 @@ export const useAuth = () => {
   // Fungsi untuk exchange code dengan token
   const exchangeCodeForToken = async (code) => {
     try {
-      const response = await axios.get(`https://mindtune-api.syahranfd.cloud/api/users/access-token?code=${code}`);
+      const response = await axios.get(`/api/users/access-token?code=${code}`);
       const { access_token, refresh_token } = response.data;
       
       localStorage.setItem('access_token', access_token);
@@ -121,7 +121,7 @@ export const useAuth = () => {
         throw new Error('Token tidak tersedia');
       }
       
-      const response = await axios.get('https://mindtune-api.syahranfd.cloud/api/users/me', {
+      const response = await axios.get('/api/users/me', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
