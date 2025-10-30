@@ -9,17 +9,13 @@ export const playlistService = {
       if (!token) {
         throw new Error('Token tidak tersedia');
       }
-      const response = await axios.post(
-        `${API_BASE_URL}/api/playlists`,
-        {
-          pre_mood: parseInt(pre_mood),
-          phq9: parseInt(phq9),
-        },
-        {
-          headers: { 'Authorization': `Bearer ${token}` },
-          withCredentials: false,
+
+      const response = await axios.get(`${API_BASE_URL}/api/playlists/create?pre_mood=${pre_mood}&phq9=${phq9}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
         }
-      );
+      });
+
       return response.data;
     } catch (error) {
       console.error('Error creating playlist:', error);
