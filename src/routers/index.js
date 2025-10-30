@@ -10,7 +10,7 @@ import QuestionnaireView from "@/views/QuestionnaireView.vue";
 import ProfessionalConsultationView from "@/views/ProfessionalConsultationView.vue";
 import PlaylistDetailView from "@/views/PlaylistDetailView.vue";
 import DashboardView from "@/views/DashboardView.vue";
-import PlaylistResult from "@/views/playlistResultView.vue";
+import PlaylistResult from "@/views/PlaylistResultView.vue";
 import FeedbackView from '@/views/FeedbackView.vue';
 import CallbackView from '@/views/CallbackView.vue';
 
