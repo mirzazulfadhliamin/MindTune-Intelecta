@@ -51,18 +51,49 @@
               </div>
             </div>
 
+            <!-- Loading State -->
+            <div v-if="isLoading" class="mt-8 text-center">
+              <div class="inline-flex items-center space-x-2">
+                <svg class="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span :class="mode === 'healing' ? 'text-blue-600' : 'text-orange-600'">Creating your playlist...</span>
+              </div>
+            </div>
+
+            <!-- Error Message -->
+            <div v-if="error" class="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <div class="flex items-center space-x-2 text-red-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                </svg>
+                <span class="font-medium">Error: {{ error }}</span>
+              </div>
+              <button
+                  @click="error = ''"
+                  class="mt-2 text-sm text-red-600 hover:text-red-800 font-medium"
+              >
+                Dismiss
+              </button>
+            </div>
+
             <!-- Action Buttons -->
             <div class="flex flex-col md:flex-row gap-4 mt-10">
               <button
+                  @click="$router.back()"
                   class="cursor-pointer flex-1 px-6 py-4 rounded-lg text-base font-semibold border-2 transition-all duration-300"
                   :class="mode === 'healing'
                     ? 'border-gray-300 text-gray-700 hover:bg-gray-100 hover:shadow-md'
                     : 'border-gray-300 text-gray-700 hover:bg-gray-100 hover:shadow-md'"
+                  :disabled="isLoading"
               >
                 Back
               </button>
               <button
-                  class="cursor-pointer flex-1 px-6 py-4 rounded-lg text-base font-semibold text-white transition-all duration-300 flex items-center justify-center space-x-2 shadow-md"
+                  @click="createPlaylist"
+                  :disabled="isLoading || !isFormComplete"
+                  class="cursor-pointer flex-1 px-6 py-4 rounded-lg text-base font-semibold text-white transition-all duration-300 flex items-center justify-center space-x-2 shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
                   :class="mode === 'healing' ? 'bg-blue-500 hover:bg-blue-600 hover:shadow-lg' : 'bg-orange-500 hover:bg-orange-600 hover:shadow-lg'"
               >
                 <svg
@@ -75,6 +106,7 @@
                     stroke-width="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
+                    v-if="!isLoading"
                 >
                   <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
                   <path d="M5 3v4"></path>
@@ -82,7 +114,7 @@
                   <path d="M3 5h4"></path>
                   <path d="M17 19h4"></path>
                 </svg>
-                <span>Create Playlist</span>
+                <span>{{ isLoading ? 'Creating...' : 'Create Playlist' }}</span>
               </button>
             </div>
           </div>
@@ -148,6 +180,7 @@
 
 <script>
 import {useTheme} from "@/composables/useTheme"
+import { playlistService } from "@/services/playlistService"
 
 export default {
   name: 'PHQ9Screening',
@@ -159,6 +192,8 @@ export default {
     return {
       showModal: false,
       answers: Array(9).fill(null),
+      isLoading: false,
+      error: '',
       options: [
         { label: 'Not at all', value: 0 },
         { label: 'Several days', value: 1 },
@@ -178,9 +213,60 @@ export default {
       ]
     }
   },
+  computed: {
+    isFormComplete() {
+      return this.answers.every(answer => answer !== null)
+    },
+    totalScore() {
+      return this.answers.reduce((sum, answer) => sum + answer, 0)
+    }
+  },
   methods: {
     selectAnswer(questionIndex, value) {
       this.answers[questionIndex] = value;
+      this.error = ''; // Clear error when user makes changes
+    },
+    
+    async createPlaylist() {
+        const pre_mood = this.$route.query.pre_mood || localStorage.getItem('pre_mood') || 5;
+
+        console.log("ini adalah mood ",pre_mood)
+
+      if (!this.isFormComplete) {
+        this.error = 'Please answer all questions before creating a playlist.';
+        return;
+      }
+
+      this.isLoading = true;
+      this.error = '';
+
+      try {
+        // Get pre_mood from route query or localStorage
+        const pre_mood = this.$route.query.pre_mood || localStorage.getItem('pre_mood') || 5;
+        
+        const playlistData = await playlistService.createPlaylist(
+          parseInt(pre_mood),
+          this.totalScore
+        );
+        console.log("ini data",playlistData.id)
+        console.log("ini adalah mood ",pre_mood)
+
+        // Navigate to playlist result page with the created playlist data
+        this.$router.push({
+          name: 'playlistresult',
+          query: {
+            playlistId: playlistData.id,
+            pre_mood: pre_mood,
+            phq9: this.totalScore
+          }
+        });
+
+      } catch (error) {
+        console.error('Failed to create playlist:', error);
+        this.error = error.response?.data?.message || 'Failed to create playlist. Please try again.';
+      } finally {
+        this.isLoading = false;
+      }
     }
   }
 }

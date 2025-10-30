@@ -18,13 +18,16 @@ export default defineConfig(({ mode }) => {
     },
     server: {
         allowedHosts: [
-            'semierect-harlow-nonnationalistically.ngrok-free.dev', // your ngrok domain
+            'semierect-harlow-nonnationalistically.ngrok-free.dev', // your ngrok domain,
+            'https://1cc670582922.ngrok-free.app',
+            'https://mindtune-api.syahranfd.cloud',
+
         ],
         proxy: {
             '/api': {
                 target: env.VITE_API_URL,
                 changeOrigin: true,
-                secure: false
+                secure: true
             }
         }
     },

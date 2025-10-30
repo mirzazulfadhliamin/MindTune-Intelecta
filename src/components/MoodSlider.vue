@@ -47,6 +47,8 @@ const moodValue = ref(props.modelValue);
 
 watch(moodValue, (val) => {
   emit("update:modelValue", val);
+  // Save to localStorage for use in questionnaire
+  localStorage.setItem('pre_mood', val.toString());
 });
 
 const moodEmojis = {

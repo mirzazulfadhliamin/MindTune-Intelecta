@@ -12,6 +12,7 @@
       </div>
   <MoodSlider/>
       <button
+       @click="goToQuestionnaire"
         class="w-full py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg font-medium hover:shadow-lg transition-all"
       >
         Continue to Assessment
@@ -23,7 +24,16 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import MoodSlider from "@/components/MoodSlider.vue";
 
+const router = useRouter()
 const moodValue = ref(5)
+
+const goToQuestionnaire = () => {
+  router.push({
+    name: 'questionnaire',
+    //query: { pre_mood: moodValue.value }
+  })
+}
 </script>
