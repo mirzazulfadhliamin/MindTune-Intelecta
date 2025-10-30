@@ -13,6 +13,7 @@ import DashboardView from "@/views/DashboardView.vue";
 import PlaylistResult from "@/views/PlaylistResultView.vue";
 import FeedbackView from '@/views/FeedbackView.vue';
 import CallbackView from '@/views/CallbackView.vue';
+import LoadingAnimationView from '@/views/LoadingAnimationView.vue';
 
 const routes = [
   {
@@ -44,6 +45,12 @@ const routes = [
         meta: { title: 'ProfessionalConsultation' }
       },
       {
+        path: '/loading',
+        name: 'loading',
+        component: LoadingAnimationView,
+        meta: { title: 'Loading' }
+      },
+      {        
         path: '/dashboard',
         name: 'dashboard',
         component: DashboardView,
