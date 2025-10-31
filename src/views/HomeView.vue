@@ -1,15 +1,31 @@
 <template>
   <div>
+    <!-- Grid Background -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden bg-white">
+      <div
+          class="absolute inset-0 transition-opacity duration-500"
+          :style="{
+          backgroundImage: mode === 'healing'
+            ? 'linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px)'
+            : 'linear-gradient(rgba(249, 115, 22, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(249, 115, 22, 0.1) 1px, transparent 1px)',
+          backgroundSize: '50px 50px'
+        }"
+      ></div>
+    </div>
+
+    <!-- Pulsing Music Notes -->
     <div class="absolute inset-0 pointer-events-none overflow-hidden">
       <div
           v-for="note in musicNotes"
           :key="note.id"
-          class="absolute animate-rain transition-colors"
+          class="absolute animate-pulse transition-colors"
           :class="mode === 'healing' ? 'text-blue-500' : 'text-orange-500'"
           :style="{
           left: note.left,
+          top: note.top,
           animationDelay: note.delay,
-          animationDuration: note.duration
+          animationDuration: note.duration,
+          opacity: 0
         }"
       >
         <svg xmlns="http://www.w3.org/2000/svg" :width="note.size" :height="note.size" viewBox="0 0 24 24" fill="none"
@@ -24,7 +40,9 @@
     <div class="flex items-center justify-center h-fit px-4 mt-60">
       <div class="max-w-2xl w-full">
         <!-- Card -->
-        <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-12 text-center animate-card-entrance">
+        <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-12 text-center animate-card-entrance"
+             :class="mode === 'healing' ? 'shadow-2xl shadow-blue-500/20' : 'shadow-2xl shadow-orange-500/20'"
+        >
           <h1
               class="text-4xl md:text-5xl font-bold mb-6 transition-colors duration-500"
               :class="mode === 'healing' ? 'text-blue-500' : 'text-orange-500'"
@@ -44,8 +62,8 @@
             </p>
           </template>
           <button
-              class="cursor-pointer text-white px-8 py-4 rounded-full text-lg font-semibold flex items-center space-x-3 mx-auto transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1.5"
-              :class="mode === 'healing' ? 'bg-blue-500 hover:bg-blue-600' : 'bg-orange-500 hover:bg-orange-600'"
+              class="cursor-pointer text-white px-8 py-4 rounded-full text-lg font-semibold flex items-center space-x-3 mx-auto transition-all duration-300 transform hover:-translate-y-1.5"
+              :class="mode === 'healing' ? 'bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 shadow-lg shadow-blue-500/50 hover:shadow-xl hover:shadow-blue-500/60' : 'bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 shadow-lg shadow-orange-500/50 hover:shadow-xl hover:shadow-orange-500/60'"
           >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -89,34 +107,37 @@ export default {
   },
   mounted() {
     const notes = [];
-    const minDistance = 5;
-    const totalNotes = 100;
+    const minDistance = 15;
+    const totalNotes = 30;
 
-    const isTooClose = (newLeft, existingNotes) => {
+    const isTooClose = (newLeft, newTop, existingNotes) => {
       return existingNotes.some(note => {
-        const distance = Math.abs(parseFloat(newLeft) - parseFloat(note.left));
-        return distance < minDistance;
+        const distanceX = Math.abs(parseFloat(newLeft) - parseFloat(note.left));
+        const distanceY = Math.abs(parseFloat(newTop) - parseFloat(note.top));
+        return distanceX < minDistance && distanceY < minDistance;
       });
     };
 
     for (let i = 0; i < totalNotes; i++) {
-      let left;
+      let left, top;
       let attempts = 0;
       const maxAttempts = 100;
 
       do {
         left = `${Math.random() * 100}%`;
+        top = `${Math.random() * 100}%`;
         attempts++;
-      } while (isTooClose(left, notes) && attempts < maxAttempts);
+      } while (isTooClose(left, top, notes) && attempts < maxAttempts);
 
-      const duration = 15 + Math.random() * 10;
+      const duration = `${2 + Math.random() * 3}s`;
 
       notes.push({
         id: i,
         left: left,
-        delay: `${i * 0.3}s`,
-        duration: `${duration}s`,
-        size: 32 + Math.random() * 32
+        top: top,
+        delay: `${Math.random() * 5}s`,
+        duration: duration,
+        size: 24 + Math.random() * 24
       });
     }
 
@@ -126,23 +147,6 @@ export default {
 </script>
 
 <style scoped>
-@keyframes rain {
-  0% {
-    transform: translateY(0px) rotate(0deg);
-    opacity: 0;
-  }
-  5% {
-    opacity: 0.5;
-  }
-  95% {
-    opacity: 0.5;
-  }
-  100% {
-    transform: translateY(calc(100vh + 100px)) rotate(1440deg);
-    opacity: 0;
-  }
-}
-
 @keyframes card-entrance {
   from {
     opacity: 0;
@@ -152,10 +156,6 @@ export default {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
-}
-
-.animate-rain {
-  animation: rain linear infinite;
 }
 
 .animate-card-entrance {
