@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="mt-16 min-h-screen bg-gray-50">
     <div class="px-4 py-8 mx-auto max-w-6xl">
       <!-- Back Button -->
       <button
@@ -70,7 +70,7 @@
             <div class="flex items-start space-x-8">
               <div class="text-center">
                 <p class="mb-2 text-sm text-gray-600">Pre Mood</p>
-                <div class="mb-1 text-3xl">{{ parseInt(playlist.pre_mood) <= 3 ? '😔' : parseInt(playlist.pre_mood) <= 7 ? '😐' : '😊' }}</div>
+                <div class="mb-1 text-3xl">{{ getMoodEmoji(parseInt(playlist.pre_mood)) }}</div>
                 <p
                     class="text-lg font-medium transition-colors duration-500"
                     :class="playlist.mode === 'healing' ? 'text-blue-500' : 'text-orange-500'"
@@ -114,7 +114,7 @@
               </div>
               <div class="text-center">
                 <p class="mb-2 text-sm text-gray-600">Post Mood</p>
-                <div class="mb-1 text-3xl">{{ parseInt(playlist.post_mood) <= 3 ? '😔' : parseInt(playlist.post_mood) <= 7 ? '😐' : '😊' }}</div>
+                <div class="mb-1 text-3xl">{{ getMoodEmoji(parseInt(playlist.post_mood)) }}</div>
                 <p
                     :class="parseInt(playlist.post_mood) > parseInt(playlist.pre_mood) ? 'text-green-500' : 'text-red-500'"
                     class="text-lg font-medium transition-colors duration-500"
@@ -283,6 +283,7 @@
 <script>
 import { useTheme } from "@/composables/useTheme"
 import { playlistDetailService } from "@/services/playlistDetailService"
+import { getMoodEmoji } from "@/utils/utils"
 
 export default {
   name: 'PlaylistDetail',
@@ -369,6 +370,9 @@ export default {
       if (this.playlist.link_playlist) {
         window.open(this.playlist.link_playlist.trim(), '_blank');
       }
+    },
+    getMoodEmoji(mood) {
+      return getMoodEmoji(mood);
     }
   }
 }
