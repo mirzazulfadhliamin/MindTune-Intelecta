@@ -62,6 +62,7 @@
             </p>
           </template>
           <button
+              @click="navigateToMoodSlider"
               class="flex items-center px-8 py-4 mx-auto space-x-3 text-lg font-semibold text-white rounded-full transition-all duration-300 transform cursor-pointer hover:-translate-y-1.5"
               :class="mode === 'healing' ? 'bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 shadow-lg shadow-blue-500/50 hover:shadow-xl hover:shadow-blue-500/60' : 'bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 shadow-lg shadow-orange-500/50 hover:shadow-xl hover:shadow-orange-500/60'"
           >
@@ -93,12 +94,19 @@
 
 <script>
 import {useTheme} from "@/composables/useTheme"
+import {useRouter} from "vue-router"
 
 export default {
   name: 'HomePage',
   setup() {
     const {mode} = useTheme()
-    return {mode}
+    const router = useRouter()
+    
+    const navigateToMoodSlider = () => {
+      router.push('/mood-slider')
+    }
+    
+    return {mode, navigateToMoodSlider}
   },
   data() {
     return {
