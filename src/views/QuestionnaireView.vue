@@ -3,11 +3,11 @@
       <div class="w-full max-w-4xl">
         <div class="p-8 bg-white rounded-3xl shadow-lg md:p-12 animate-card-entrance">
           <div
-              class="px-6 py-6 mb-8 rounded-2xl border transition-colors duration-500"
+              class="px-6 py-6 mb-4 rounded-2xl border transition-colors duration-500"
               :class="mode === 'healing' ? 'bg-blue-50 border-blue-100' : 'bg-orange-50 border-orange-100'"
           >
             <h1
-                class="flex items-center mb-2 text-2xl font-bold transition-colors duration-500 md:text-3xl"
+                class="flex items-center mb-2 text-2xl font-medium transition-colors duration-500 md:text-3xl"
                 :class="mode === 'healing' ? 'text-blue-900' : 'text-orange-600'"
             >
               PHQ-9 Depression Screening
@@ -19,13 +19,14 @@
                 ⓘ
               </button>
             </h1>
-            <p
-                class="text-sm transition-colors duration-500 md:text-base"
-                :class="mode === 'healing' ? 'text-blue-600' : 'text-orange-600'"
-            >
-              Over the last <span class="font-semibold">2 weeks</span>, how often have you been bothered by the following problems?
-            </p>
           </div>
+          
+          <h1
+              class="mb-8 text-lg font-medium transition-colors duration-500 md:text-base"
+              :class="mode === 'healing' ? 'text-blue-600' : 'text-orange-600'"
+            >
+            Selama 2 minggu terakhir, seberapa sering anda mengalami masalah-masalah berikut ini?
+          </h1>
 
           <!-- Content -->
           <div>
@@ -43,7 +44,7 @@
                       class="px-4 py-3 text-sm font-medium rounded-lg border transition-all duration-200 cursor-pointer"
                       :class="answers[index] === option.value
                         ? (mode === 'healing' ? 'border-blue-500 bg-blue-500 text-white' : 'border-orange-500 bg-orange-500 text-white')
-                        : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'"
+                        : 'border-gray-300 bg-white text-gray-700 hover:border-blue-200 hover:bg-blue-50'"
                   >
                     {{ option.label }}
                   </button>
@@ -138,7 +139,7 @@
               class="text-2xl font-bold transition-colors duration-500"
               :class="mode === 'healing' ? 'text-blue-900' : 'text-orange-600'"
           >
-            About PHQ-9 Depression Screening
+            Tentang PHQ-9 Depression Screening
           </h2>
           <button
               @click="showModal = false"
@@ -149,29 +150,29 @@
         </div>
         <div class="space-y-4 text-gray-700">
           <p>
-            The <strong>Patient Health Questionnaire-9 (PHQ-9)</strong> is a widely used, validated screening tool for detecting depression. It consists of nine questions that correspond to the diagnostic criteria for major depressive disorder.
+            <strong>Patient Health Questionnaire-9 (PHQ-9)</strong> adalah alat skrining yang telah divalidasi dan umum digunakan untuk mendeteksi depresi. Terdiri dari sembilan pertanyaan yang sesuai dengan kriteria diagnostik untuk gangguan depresi mayor.
           </p>
           <p>
-            <strong>How it works:</strong>
+            <strong>Cara kerjanya:</strong>
           </p>
           <ul class="ml-4 space-y-2 list-disc list-inside">
-            <li>Each question asks about symptoms over the past 2 weeks</li>
-            <li>Responses are scored from 0 (not at all) to 3 (nearly every day)</li>
-            <li>Total scores range from 0 to 27</li>
-            <li>Higher scores indicate more severe depression symptoms</li>
+            <li>Setiap pertanyaan menanyakan gejala selama 2 minggu terakhir</li>
+            <li>Jawaban diberi skor dari 0 (tidak sama sekali) hingga 3 (hampir setiap hari)</li>
+            <li>Skor total berkisar antara 0 hingga 27</li>
+            <li>Skor yang lebih tinggi menunjukkan gejala depresi yang lebih berat</li>
           </ul>
           <p>
-            <strong>Score interpretation:</strong>
+            <strong>Interpretasi skor:</strong>
           </p>
           <ul class="ml-4 space-y-2 list-disc list-inside">
-            <li>0-4: Minimal depression</li>
-            <li>5-9: Mild depression</li>
-            <li>10-14: Moderate depression</li>
-            <li>15-19: Moderately severe depression</li>
-            <li>20-27: Severe depression</li>
+            <li>0-4: Depresi minimal</li>
+            <li>5-9: Depresi ringan</li>
+            <li>10-14: Depresi sedang</li>
+            <li>15-19: Depresi cukup berat</li>
+            <li>20-27: Depresi berat</li>
           </ul>
           <p class="text-sm italic text-gray-600">
-            Note: This screening tool is for informational purposes and does not replace professional medical advice. If you're experiencing depression symptoms, please consult with a healthcare provider.
+            Catatan: Alat skrining ini hanya untuk tujuan informasi dan tidak menggantikan saran medis profesional. Jika Anda mengalami gejala depresi, silakan konsultasikan dengan penyedia layanan kesehatan.
           </p>
         </div>
       </div>
@@ -195,21 +196,21 @@ export default {
       isLoading: false,
       error: '',
       options: [
-        { label: 'Not at all', value: 0 },
-        { label: 'Several days', value: 1 },
-        { label: 'More than half the days', value: 2 },
-        { label: 'Nearly every day', value: 3 }
+        { label: 'Tidak Pernah', value: 0 },
+        { label: 'Beberapa Hari', value: 1 },
+        { label: 'Lebih dari separuh waktu yang dimaksud', value: 2 },
+        { label: 'Hampir Setiap Hari', value: 3 }
       ],
       questions: [
-        'Little interest or pleasure in doing things',
-        'Feeling down, depressed, or hopeless',
-        'Trouble falling or staying asleep, or sleeping too much',
-        'Feeling tired or having little energy',
-        'Poor appetite or overeating',
-        'Feeling bad about yourself — or that you are a failure or have let yourself or your family down',
-        'Trouble concentrating on things, such as reading the newspaper or watching television',
-        'Moving or speaking so slowly that other people could have noticed. Or the opposite — being so fidgety or restless that you have been moving around a lot more than usual',
-        'Thoughts that you would be better off dead or of hurting yourself in some way'
+        'Kurang berminat atau bergairah dalam melakukan apapun',
+        'Merasa murung, muram, atau putus asa',
+        'Sulit tidur atau mudah terbangun, atau terlalu banyak tidur',
+        'Merasa lelah atau kurang bertenaga',
+        'Kurang nafsu makan atau terlalu banyak makan',
+        'Kurang percaya diri — atau merasa bahwa Anda adalah orang yang gagal atau telah mengecewakan diri sendiri atau keluarga',
+        'Sulit berkonsentrasi pada sesuatu, misalnya membaca koran atau menonton televisi',
+        'Bergerak atau berbicara sangat lambat sehingga orang lain memperhatikannya. Atau sebaliknya — merasa resah atau gelisah sehingga Anda lebih sering bergerak dari biasanya  ',
+        'Merasa lebih baik mati atau ingin melukai diri sendiri dengan cara apapun'
       ]
     }
   },

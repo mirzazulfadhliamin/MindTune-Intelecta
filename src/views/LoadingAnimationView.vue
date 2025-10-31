@@ -30,6 +30,12 @@ import { playlistService } from "@/services/playlistService";
 
 export default {
   mounted() {
+    // Scroll to top of page when component is mounted
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+    
     this.createPlaylist();
   },
   methods: {
