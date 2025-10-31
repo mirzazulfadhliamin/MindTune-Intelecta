@@ -1,6 +1,6 @@
 <template>
-  <div class="mt-20 min-h-screen bg-gray-50">
-    <div class="px-4 py-8 mx-auto max-w-7xl">
+  <div class="min-h-screen bg-gray-50">
+    <div class="px-4 py-8 mx-auto mt-16 max-w-7xl">
       <!-- Header -->
       <h1
           class="mb-8 text-4xl font-bold transition-colors duration-500"

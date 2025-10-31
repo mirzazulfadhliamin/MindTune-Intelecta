@@ -121,6 +121,14 @@
                 >
                   {{ playlist.post_mood ? `${playlist.post_mood}/10` : 'Belum diisi' }}
                 </p>
+                <button
+                    v-if="!playlist.post_mood"
+                    @click="goToFeedback"
+                    class="px-4 py-2 mt-2 text-sm font-medium text-white rounded-lg transition-colors duration-300"
+                    :class="playlist.mode === 'healing' ? 'bg-blue-500 hover:bg-blue-600' : 'bg-orange-500 hover:bg-orange-600'"
+                >
+                  Submit Feedback
+                </button>
               </div>
             </div>
           </div>
@@ -374,6 +382,12 @@ export default {
       if (this.playlist.link_playlist) {
         window.open(this.playlist.link_playlist.trim(), '_blank');
       }
+    },
+    goToFeedback() {
+      this.$router.push({
+        path: '/Feedback',
+        query: { playlistId: this.playlistId }
+      });
     },
     getMoodEmoji(mood) {
       return getMoodEmoji(mood);
