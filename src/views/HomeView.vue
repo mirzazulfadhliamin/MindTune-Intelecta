@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Grid Background -->
-    <div class="absolute inset-0 pointer-events-none overflow-hidden bg-white">
+    <div class="overflow-hidden absolute inset-0 bg-white pointer-events-none">
       <div
           class="absolute inset-0 transition-opacity duration-500"
           :style="{
@@ -14,11 +14,11 @@
     </div>
 
     <!-- Pulsing Music Notes -->
-    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+    <div class="overflow-hidden absolute inset-0 pointer-events-none">
       <div
           v-for="note in musicNotes"
           :key="note.id"
-          class="absolute animate-pulse transition-colors"
+          class="absolute transition-colors animate-pulse"
           :class="mode === 'healing' ? 'text-blue-500' : 'text-orange-500'"
           :style="{
           left: note.left,
@@ -37,32 +37,32 @@
       </div>
     </div>
 
-    <div class="flex items-center justify-center h-fit px-4 mt-60">
-      <div class="max-w-2xl w-full">
+    <div class="flex justify-center items-center px-4 mt-60 h-fit">
+      <div class="w-full max-w-2xl">
         <!-- Card -->
-        <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-12 text-center animate-card-entrance"
-             :class="mode === 'healing' ? 'shadow-2xl shadow-blue-500/20' : 'shadow-2xl shadow-orange-500/20'"
+        <div class="p-12 text-center rounded-3xl backdrop-blur-sm bg-white/80 animate-card-entrance"
+             :class="mode === 'healing' ? 'shadow-[0_0_50px_25px_rgba(59,130,246,0.15)]' : 'shadow-2xl shadow-orange-500/20'"
         >
           <h1
-              class="text-4xl md:text-5xl font-bold mb-6 transition-colors duration-500"
+              class="mb-6 text-4xl font-bold transition-colors duration-500 md:text-5xl"
               :class="mode === 'healing' ? 'text-blue-500' : 'text-orange-500'"
           >
             {{ mode === 'healing' ? 'Heal Through Music' : 'Your Perfect Soundtrack' }}
           </h1>
           <template v-if="mode === 'healing'">
-            <p class="text-gray-600 text-lg mb-10">
+            <p class="mb-10 text-lg text-gray-600">
               Evidence-based music therapy to support your mental wellness journey.
               Create playlists scientifically designed to improve your mood.
             </p>
           </template>
           <template v-else>
-            <p class="text-gray-600 text-lg mb-10">
+            <p class="mb-10 text-lg text-gray-600">
               AI-powered playlists that match your vibe, context, and mood. Every moment deserves the perfect
               soundtrack.
             </p>
           </template>
           <button
-              class="cursor-pointer text-white px-8 py-4 rounded-full text-lg font-semibold flex items-center space-x-3 mx-auto transition-all duration-300 transform hover:-translate-y-1.5"
+              class="flex items-center px-8 py-4 mx-auto space-x-3 text-lg font-semibold text-white rounded-full transition-all duration-300 transform cursor-pointer hover:-translate-y-1.5"
               :class="mode === 'healing' ? 'bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 shadow-lg shadow-blue-500/50 hover:shadow-xl hover:shadow-blue-500/60' : 'bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 shadow-lg shadow-orange-500/50 hover:shadow-xl hover:shadow-orange-500/60'"
           >
             <svg
