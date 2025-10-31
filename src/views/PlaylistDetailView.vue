@@ -80,7 +80,7 @@
               </div>
               <div class="flex items-center">
                 <svg
-                    v-if="parseInt(playlist.post_mood) > parseInt(playlist.pre_mood)"
+                    v-if="playlist.post_mood && parseInt(playlist.post_mood) > parseInt(playlist.pre_mood)"
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
                     height="24"
@@ -96,7 +96,7 @@
                   <polyline points="17 6 23 6 23 12"></polyline>
                 </svg>
                 <svg
-                    v-else
+                    v-else-if="playlist.post_mood && parseInt(playlist.post_mood) <= parseInt(playlist.pre_mood)"
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
                     height="24"
@@ -114,12 +114,12 @@
               </div>
               <div class="text-center">
                 <p class="mb-2 text-sm text-gray-600">Post Mood</p>
-                <div class="mb-1 text-3xl">{{ getMoodEmoji(parseInt(playlist.post_mood)) }}</div>
+                <div class="mb-1 text-3xl">{{ playlist.post_mood ? getMoodEmoji(parseInt(playlist.post_mood)) : '❓' }}</div>
                 <p
-                    :class="parseInt(playlist.post_mood) > parseInt(playlist.pre_mood) ? 'text-green-500' : 'text-red-500'"
+                    :class="playlist.post_mood ? (parseInt(playlist.post_mood) > parseInt(playlist.pre_mood) ? 'text-green-500' : 'text-red-500') : 'text-gray-500'"
                     class="text-lg font-medium transition-colors duration-500"
                 >
-                  {{ playlist.post_mood }}/10
+                  {{ playlist.post_mood ? `${playlist.post_mood}/10` : 'Belum diisi' }}
                 </p>
               </div>
             </div>
@@ -329,6 +329,10 @@ export default {
     }
   },
   mounted() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
     // Get playlist ID from URL query parameter
     const urlParams = new URLSearchParams(window.location.search);
     this.playlistId = urlParams.get('id');
