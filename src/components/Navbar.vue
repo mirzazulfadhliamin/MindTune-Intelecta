@@ -5,7 +5,7 @@
     <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16">
         <div class="flex items-center space-x-8">
-          <button class="flex items-center space-x-2 group">
+          <button @click="goToHome" class="flex items-center space-x-2 cursor-pointer group">
             <div class="w-30">
               <img
                 :src="mode === 'healing' ? logo1 : logo2"
@@ -30,10 +30,10 @@
           <div v-else class="relative">
             <button
               @click="toggleUserMenu"
-              class="flex items-center p-2 space-x-2 rounded-lg transition-colors hover:bg-gray-100"
+              class="flex items-center p-2 space-x-2 rounded-lg transition-colors cursor-pointer hover:bg-gray-100"
             >
               <div class="w-8 h-8 bg-[var(--main-color)] rounded-full flex items-center justify-center">
-                <span class="text-white text-sm font-medium">{{ userInitial }}</span>
+                <span class="text-sm font-medium text-white">{{ userInitial }}</span>
               </div>
               <span class="text-sm font-medium text-[var(--t-grey)]">{{ userName }}</span>
               <svg
@@ -54,7 +54,7 @@
             >
               <button
                 @click="goToDashboard"
-                class="flex items-center px-4 py-2 space-x-2 w-full text-sm text-left text-gray-700 transition-colors hover:bg-gray-50"
+                class="flex items-center px-4 py-2 space-x-2 w-full text-sm text-left text-gray-700 transition-colors cursor-pointer hover:bg-gray-50"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -63,7 +63,7 @@
               </button>
               <button
                 @click="handleLogout"
-                class="flex items-center px-4 py-2 space-x-2 w-full text-sm text-left text-red-600 transition-colors hover:bg-red-50"
+                class="flex items-center px-4 py-2 space-x-2 w-full text-sm text-left text-red-600 transition-colors cursor-pointer hover:bg-red-50"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -85,7 +85,7 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import logo1 from '@/assets/1.svg'
 import logo2 from '@/assets/2.svg'
 import ToggleSwitch from "@/components/ToggleButton.vue"
@@ -93,6 +93,7 @@ import { useTheme } from "@/composables/useTheme"
 import { useAuth } from "@/composables/useAuth"
 
 const route = useRoute()
+const router = useRouter()
 const { mode } = useTheme()
 const { isAuthenticated, getLoginUrl, getUserProfile } = useAuth()
 const isLogin = ref(false)
@@ -131,9 +132,14 @@ const toggleUserMenu = () => {
   showUserMenu.value = !showUserMenu.value
 }
 
+const goToHome = () => {
+  router.push('/')
+}
+
 const goToDashboard = () => {
   console.log('Navigate to dashboard')
   showUserMenu.value = false
+  router.push('/dashboard')
 }
 
 const handleLogin = async () => {
