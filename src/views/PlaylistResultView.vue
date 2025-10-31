@@ -92,11 +92,8 @@
         </a>
       </div>
       <button
-        @click="$router.push({ name: 'Feedback' })"
+        @click="$router.push({ name: 'Feedback', query: { playlistId: playlist.id } })"
         class="w-full py-3 border-1 border-[var(--silver)] text-[var(--t-gray)] rounded-lg font-medium cursor-pointer transition-all duration-300 hover:bg-gray-100"
-
-
-
         >
         Continue To Feedback
       </button>
