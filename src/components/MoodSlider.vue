@@ -2,7 +2,7 @@
   <div class="space-y-6">
     <div class="text-center">
       <div
-        class="text-6xl mb-4 transition-transform duration-200 hover:scale-110"
+        class="mb-4 text-6xl transition-transform duration-200 hover:scale-110"
       >
         {{ currentEmoji }}
       </div>
@@ -21,12 +21,12 @@
         :style="sliderStyle"
       />
       <div
-        class="absolute top-1/2 -translate-y-1/2 w-6 h-6 bg-white rounded-full shadow-lg border-4 border-blue-500 pointer-events-none transition-all"
+        class="absolute top-1/2 w-6 h-6 bg-white rounded-full border-4 border-blue-500 shadow-lg transition-all -translate-y-1/2 pointer-events-none"
         :style="thumbStyle"
       ></div>
     </div>
 
-    <div class="flex justify-between text-xs text-gray-500 px-1">
+    <div class="flex justify-between px-1 text-xs text-gray-500">
       <span>Sangat Rendah</span>
       <span>Sedang</span>
       <span>Sangat Baik</span>
@@ -66,17 +66,17 @@ const moodEmojis = {
 };
 
 const moodLabels = {
-  0: "Very Low",
-  1: "Low",
-  2: "Somewhat Low",
-  3: "Neutral Low",
-  4: "Slightly Low",
-  5: "Moderate",
-  6: "Good",
-  7: "Very Good",
-  8: "Excellent",
-  9: "Amazing",
-  10: "Perfect",
+  0: "Sangat Rendah",
+  1: "Rendah",
+  2: "Agak Rendah",
+  3: "Netral Rendah",
+  4: "Sedikit Rendah",
+  5: "Sedang",
+  6: "Baik",
+  7: "Sangat Baik",
+  8: "Luar Biasa",
+  9: "Menakjubkan",
+  10: "Sempurna",
 };
 
 const currentEmoji = computed(() => moodEmojis[moodValue.value]);

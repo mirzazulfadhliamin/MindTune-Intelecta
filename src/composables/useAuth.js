@@ -25,7 +25,8 @@ api.interceptors.response.use(
           return Promise.reject(error);
         }
         
-        // Refresh token
+        // Refresh token - gunakan axios langsung untuk menghindari loop
+        console.log('Attempting to refresh token...');
         const response = await axios.get(
           `${API_BASE_URL}/api/users/refresh-token?refresh_token=${refresh_token}`
         );
@@ -40,6 +41,7 @@ api.interceptors.response.use(
         
         // Update header Authorization di request original
         originalRequest.headers['Authorization'] = `Bearer ${access_token}`;
+        console.log('Token refreshed successfully, retrying original request...');
         
         // Retry request original
         return api(originalRequest);
@@ -117,16 +119,7 @@ export const useAuth = () => {
   // Fungsi untuk mendapatkan data profil pengguna
   const getUserProfile = async () => {
     try {
-      const token = localStorage.getItem('access_token');
-      if (!token) {
-        throw new Error('Token tidak tersedia');
-      }
-      
-      const response = await axios.get(`${API_BASE_URL}/api/users/me`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const response = await api.get(`${API_BASE_URL}/api/users/me`);
       
       return response.data;
     } catch (error) {

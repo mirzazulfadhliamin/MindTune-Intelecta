@@ -17,7 +17,7 @@ export default defineConfig(() => {
     server: {
         allowedHosts: [
             'semierect-harlow-nonnationalistically.ngrok-free.dev', // your ngrok domain,
-            'https://1cc670582922.ngrok-free.app',
+            '036d6edcdd71.ngrok-free.app',
         ]
     },
     };
