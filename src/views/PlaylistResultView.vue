@@ -14,17 +14,22 @@
       </div>
       <div class="flex flex-col gap-4 mx-4 sm:flex-row">
         <div
-          class="flex-1 rounded-xl border border-[var(--bg-green)] bg-[var(--bg-green)]/40 p-4 text-center shadow-sm"
+          class="flex-1 rounded-xl border border-[#FFA500]/20 bg-[#FFA500]/10 p-4 text-center shadow-sm"
         >
           <div class="flex flex-col items-center space-y-1.7">
-            <img 
-              src="../assets/upward-arrow.svg" 
-              alt="Upward Arrow Icon" 
-              class="w-8 h-8 text-[var(--dark-green)]"
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-8 h-8 text-[#FFA500]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
             >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
             <p class="text-sm font-medium text-[var(--t-gray)]">Tingkat Depresi</p>
-            <p class="text-2xl font-bold text-[var(--dark-green)]">{{ playlist.phq9_score }}/27</p>
-            <p class="text-sm font-medium text-[var(--dark-green)]">{{ playlist.depression_level }}</p>
+            <p class="text-2xl font-bold text-[#FFA500]">{{ playlist.phq9_score }}/27</p>
+            <p class="text-sm font-medium text-[#FFA500]">{{ playlist.depression_level }}</p>
           </div>
         </div>
         <div
@@ -167,6 +172,12 @@ export default {
     }
   },
   mounted() {
+    // Scroll to top of page when component is mounted
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+    
     // If we have playlist data in route params, use it
     if (this.$route.params.playlist) {
       this.playlist = this.$route.params.playlist;
