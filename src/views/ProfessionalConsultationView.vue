@@ -6,10 +6,10 @@
           <!-- Header -->
           <div class="text-center mb-8">
             <h1 class="text-3xl md:text-4xl font-bold text-red-600 mb-4">
-              We're Here to Support You
+              Kami Siap Mendukungmu
             </h1>
             <p class="text-gray-700 text-base">
-              Your assessment indicates you may be experiencing severe symptoms. We strongly recommend speaking with a mental health professional who can provide proper support.
+              Hasil penilaianmu menunjukkan bahwa kamu mungkin mengalami gejala berat. Kami sangat menyarankan untuk berbicara dengan profesional kesehatan mental yang dapat memberikan dukungan yang tepat.
             </p>
           </div>
 
@@ -23,35 +23,35 @@
                 </svg>
               </div>
             </div>
-            <p class="text-gray-700 font-semibold mb-1">Depression Level</p>
-            <p class="text-red-600 font-bold text-sm mb-3">Severe - Professional Help Needed</p>
+            <p class="text-gray-700 font-semibold mb-1">Tingkat Depresi</p>
+            <p class="text-red-600 font-bold text-sm mb-3">Parah - Butuh Bantuan Profesional</p>
             <p class="text-4xl font-bold text-red-600">22/27</p>
           </div>
 
           <div class="grid md:grid-cols-2 gap-6 mb-6">
             <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
-              <h3 class="text-xl font-bold text-red-600 mb-2">24/7 Crisis Support</h3>
+              <h3 class="text-xl font-bold text-red-600 mb-2">Dukungan Krisis 24 Jam</h3>
               <p class="text-gray-700 text-sm mb-8">
-                If you're in crisis or having thoughts of self-harm, please reach out immediately. Trained counselors are available 24/7.
+                Jika kamu sedang dalam krisis atau memiliki pikiran untuk menyakiti diri, segera hubungi layanan bantuan. Konselor terlatih tersedia 24 jam setiap hari.
               </p>
               <button
                   @click="callCrisis"
                   class="cursor-pointer w-full px-6 py-3 bg-red-600 text-white rounded-lg font-semibold transition-all duration-300 hover:bg-red-700 hover:shadow-lg"
               >
-                Call Crisis Hotline
+                Hubungi Hotline Krisis
               </button>
             </div>
 
             <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6">
-              <h3 class="text-xl font-bold text-blue-500 mb-2">Find a Professional</h3>
+              <h3 class="text-xl font-bold text-blue-500 mb-2">Temukan Profesional</h3>
               <p class="text-gray-700 text-sm mb-8">
-                Connect with licensed therapists and mental health professionals who can provide personalized treatment and support.
+                Terhubunglah dengan terapis dan profesional kesehatan mental berlisensi yang dapat memberikan perawatan dan dukungan yang sesuai dengan kebutuhanmu.
               </p>
               <button
                   @click="findTherapist"
                   class="cursor-pointer w-full px-6 py-3 bg-blue-500 text-white rounded-lg font-semibold transition-all duration-300 hover:bg-blue-600 hover:shadow-lg"
               >
-                Find Therapist Near You
+                Cari Terapis di Sekitarmu
               </button>
             </div>
           </div>
@@ -66,9 +66,9 @@
                 </svg>
               </div>
               <div>
-                <h4 class="font-bold text-yellow-600 mb-2">Important Note</h4>
+                <h4 class="font-bold text-yellow-600 mb-2">Catatan Penting</h4>
                 <p class="text-yellow-600 text-sm">
-                  Mind Tune is designed to support your mental wellness journey, but it is not a substitute for professional mental health care. If you're experiencing severe symptoms, please seek help from a qualified mental health professional. Your wellbeing is our priority.
+                  Mind Tune dibuat untuk mendukung perjalanan kesehatan mentalmu, tetapi bukan pengganti perawatan profesional. Jika kamu mengalami gejala berat, segera cari bantuan dari profesional kesehatan mental. Kesejahteraanmu adalah prioritas kami.
                 </p>
               </div>
             </div>
@@ -79,7 +79,7 @@
               @click="goHome"
               class="cursor-pointer w-full px-6 py-4 bg-white border-2 border-gray-300 text-gray-700 rounded-lg font-semibold transition-all duration-300 hover:bg-gray-50 hover:shadow-md"
           >
-            Back to Home
+            Kembali ke Beranda
           </button>
         </div>
       </div>
@@ -95,7 +95,7 @@ export default {
       window.location.href = 'tel:112';
     },
     findTherapist() {
-      window.open('https://www.google.com/search?q=therapist+near+me', '_blank');
+      window.open('https://www.google.com/search?q=terapis+terdekat', '_blank');
     },
     goHome() {
       this.$router.push('/');

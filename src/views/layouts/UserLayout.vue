@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen flex flex-col">
-    <main class="flex-grow py-16">
+    <main class="flex-grow">
     <Navbar />
       <router-view />
     </main>

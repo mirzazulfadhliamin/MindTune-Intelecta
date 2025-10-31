@@ -1,11 +1,9 @@
-import { defineConfig, loadEnv } from 'vite'
+import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
 
-export default defineConfig(({ mode }) => {
-    const env = loadEnv(mode, process.cwd());
-    
+export default defineConfig(() => {    
     return {
     plugins: [
         vue(),
@@ -19,17 +17,8 @@ export default defineConfig(({ mode }) => {
     server: {
         allowedHosts: [
             'semierect-harlow-nonnationalistically.ngrok-free.dev', // your ngrok domain,
-            'https://1cc670582922.ngrok-free.app',
-            'https://mindtune-api.syahranfd.cloud',
-
-        ],
-        proxy: {
-            '/api': {
-                target: env.VITE_API_URL,
-                changeOrigin: true,
-                secure: true
-            }
-        }
+            '036d6edcdd71.ngrok-free.app',
+        ]
     },
     };
 });
