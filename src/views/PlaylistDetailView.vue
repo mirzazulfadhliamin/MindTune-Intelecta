@@ -1,5 +1,7 @@
 <template>
+  <div class="min-h-screen bg-gray-50">
     <div class="max-w-6xl mx-auto px-4 py-8">
+      <!-- Back Button -->
       <button
           @click="goBack"
           class="cursor-pointer flex items-center space-x-2 text-gray-700 hover:text-gray-900 transition-colors mb-6"
@@ -11,9 +13,12 @@
         <span class="font-medium">Back to dashboard</span>
       </button>
 
-      <div class="bg-white rounded-3xl shadow-lg p-8 md:p-10 mb-6 animate-card-entrance">
+      <!-- Main Card -->
+      <div class="bg-white rounded-3xl border-2 border-gray-200 p-8 md:p-10 mb-6 animate-card-entrance">
         <div class="flex items-start justify-between mb-8">
+          <!-- Left Side: Icon and Info -->
           <div class="flex items-start space-x-6">
+            <!-- Playlist Icon -->
             <div
                 class="w-20 h-20 rounded-2xl flex items-center justify-center flex-shrink-0 transition-colors duration-500"
                 :class="mode === 'healing' ? 'bg-blue-500' : 'bg-orange-500'"
@@ -35,6 +40,7 @@
               </svg>
             </div>
 
+            <!-- Playlist Info -->
             <div>
               <h1 class="text-3xl font-bold text-gray-900 mb-3">Deep Relaxation</h1>
               <div class="flex items-center space-x-3">
@@ -54,6 +60,7 @@
             </div>
           </div>
 
+          <!-- Right Side: Mood Indicators -->
           <div class="flex items-start space-x-8">
             <div class="text-center">
               <p class="text-sm text-gray-600 mb-2">Pre Mood</p>
@@ -68,27 +75,25 @@
             <div class="flex items-center">
               <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="32"
-                  height="32"
+                  width="24"
+                  height="24"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke-width="2.5"
+                  stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  :class="mode === 'healing' ? 'text-blue-500' : 'text-orange-500'"
-                  class="transition-colors duration-500"
+                  class="text-green-500"
                   stroke="currentColor"
               >
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
               </svg>
             </div>
             <div class="text-center">
               <p class="text-sm text-gray-600 mb-2">Post Mood</p>
               <div class="text-3xl mb-1">😊</div>
               <p
-                  class="font-bold text-lg transition-colors duration-500"
-                  :class="mode === 'healing' ? 'text-blue-500' : 'text-orange-500'"
+                  class="text-green-500 font-bold text-lg transition-colors duration-500"
               >
                 7/10
               </p>
@@ -96,6 +101,7 @@
           </div>
         </div>
 
+        <!-- Details Grid -->
         <div class="grid grid-cols-3 gap-8 mb-6">
           <div>
             <p class="text-sm text-gray-600 mb-1">Duration</p>
@@ -111,6 +117,7 @@
           </div>
         </div>
 
+        <!-- Open in Spotify Button -->
         <button
             class="cursor-pointer w-full px-6 py-4 rounded-xl font-semibold text-white transition-all duration-300 flex items-center justify-center space-x-2 shadow-md"
             :class="mode === 'healing' ? 'bg-blue-500 hover:bg-blue-600 hover:shadow-lg' : 'bg-orange-500 hover:bg-orange-600 hover:shadow-lg'"
@@ -123,7 +130,7 @@
       </div>
 
       <!-- Tracks Card -->
-      <div class="bg-white rounded-3xl shadow-lg p-8 md:p-10 mb-6 animate-card-entrance">
+      <div class="bg-white rounded-3xl border-2 border-gray-200 p-8 md:p-10 mb-6 animate-card-entrance">
         <div class="flex items-center space-x-2 mb-6">
           <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -195,20 +202,8 @@
     >
       <div
           @click.stop
-          class="relative bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 animate-modal-entrance"
-          style="transform-origin: center;"
+          class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 animate-modal-entrance"
       >
-        <!-- Close Button -->
-        <button
-            @click="showDeleteModal = false"
-            class="cursor-pointer absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors z-50"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-
         <!-- Icon -->
         <div class="flex justify-center mb-6">
           <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
@@ -218,6 +213,17 @@
             </svg>
           </div>
         </div>
+
+        <!-- Close Button -->
+        <button
+            @click="showDeleteModal = false"
+            class="cursor-pointer absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
 
         <!-- Content -->
         <div class="text-center mb-6">
@@ -244,6 +250,7 @@
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>

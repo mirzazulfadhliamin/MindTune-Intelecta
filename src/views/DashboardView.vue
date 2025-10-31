@@ -1,5 +1,7 @@
 <template>
+  <div class="min-h-screen bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 py-8">
+      <!-- Header -->
       <h1
           class="text-4xl font-bold mb-8 transition-colors duration-500"
           :class="mode === 'healing' ? 'text-blue-600' : 'text-orange-600'"
@@ -7,8 +9,10 @@
         Dashboard
       </h1>
 
+      <!-- Stats Cards -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div class="bg-white rounded-2xl shadow-md p-6 flex items-center justify-between">
+        <!-- Total Sessions -->
+        <div class="bg-white rounded-2xl border-2 border-gray-200 p-6 flex items-center justify-between">
           <div>
             <p class="text-sm text-gray-600 mb-1">Total Sessions</p>
             <p
@@ -43,7 +47,8 @@
           </div>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-md p-6 flex items-center justify-between">
+        <!-- Avg Mood Improvement -->
+        <div class="bg-white rounded-2xl border-2 border-gray-200 p-6 flex items-center justify-between">
           <div>
             <p class="text-sm text-gray-600 mb-1">Avg Mood Improvement</p>
             <p
@@ -76,7 +81,8 @@
           </div>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-md p-6 flex items-center justify-between">
+        <!-- Most Frequent Genre -->
+        <div class="bg-white rounded-2xl border-2 border-gray-200 p-6 flex items-center justify-between">
           <div>
             <p class="text-sm text-gray-600 mb-1">Most Frequent Genre</p>
             <p
@@ -111,7 +117,8 @@
         </div>
       </div>
 
-      <div class="bg-white rounded-2xl shadow-md p-8">
+      <!-- Session History -->
+      <div class="bg-white rounded-2xl border-2 border-gray-200 p-8">
         <div class="flex items-center space-x-2 mb-6">
           <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -139,14 +146,16 @@
           </h2>
         </div>
 
+        <!-- Session List -->
         <div class="space-y-4">
           <div
               v-for="session in sessions"
               :key="session.id"
               @click="goToDetail(session.id)"
-              class="cursor-pointer flex items-center justify-between p-5 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
+              class="cursor-pointer flex items-center justify-between p-5 border-2 border-gray-200 rounded-xl hover:border-gray-300 transition-colors"
           >
             <div class="flex items-center space-x-4 flex-1">
+              <!-- Session Number -->
               <div
                   class="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg transition-colors duration-500"
                   :class="mode === 'healing' ? 'bg-blue-100 text-blue-600' : 'bg-orange-100 text-orange-600'"
@@ -154,6 +163,7 @@
                 #{{ session.id }}
               </div>
 
+              <!-- Session Info -->
               <div class="flex-1">
                 <h3 class="font-bold text-gray-900 mb-1">{{ session.title }}</h3>
                 <div class="flex items-center space-x-4 text-sm text-gray-600">
@@ -166,8 +176,11 @@
                   </div>
                   <span class="px-2 py-1 bg-gray-200 text-gray-700 rounded text-xs">{{ session.level }}</span>
                   <div class="flex items-center space-x-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <circle cx="12" cy="12" r="10"></circle>
+                      <path d="M12 7.3v6"></path>
+                      <circle cx="9.9" cy="15.2" r="2.3"></circle>
+                      <path d="M12.6 7.3h3"></path>
                     </svg>
                     <span>{{ session.genre }}</span>
                   </div>
@@ -175,6 +188,7 @@
               </div>
             </div>
 
+            <!-- Mood Change -->
             <div class="flex items-center space-x-6 mr-4">
               <div class="text-right">
                 <p class="text-xs text-gray-600 mb-1">Pre Mood</p>
@@ -186,20 +200,38 @@
                 </p>
               </div>
 
+              <!-- Arrow Up/Down -->
               <svg
+                  v-if="session.moodChange > 0"
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
                   height="24"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke-width="2.5"
+                  stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  :class="session.moodChange > 0 ? 'text-green-500' : 'text-red-500'"
+                  class="text-green-500"
                   stroke="currentColor"
               >
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline :points="session.moodChange > 0 ? '12 5 19 12 12 19' : '12 19 5 12 12 5'"></polyline>
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
+              </svg>
+              <svg
+                  v-else
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="text-red-500"
+                  stroke="currentColor"
+              >
+                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                <polyline points="17 18 23 18 23 12"></polyline>
               </svg>
 
               <div class="text-right">
@@ -213,6 +245,7 @@
               </div>
             </div>
 
+            <!-- Arrow Right -->
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
               <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
@@ -220,6 +253,7 @@
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -274,3 +308,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+/* No additional styles needed */
+</style>
