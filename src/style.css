@@ -1,1 +1,45 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primary: #2F80ED;
+  --color-primary-light: #60A5FA;
+  --color-primary-dark: #1E3A8A;
+  --color-primary-soft: #E3F2FD;
+
+  --color-alt-primary: #FB923C;
+  --color-alt-primary-light: #FDBA74;
+  --color-alt-primary-dark: #C2410C;
+  --color-alt-soft: #FFF3E0; 
+
+  --color-success: #22C55E;
+  --color-success-light: #86EFAC;
+  --color-success-dark: #166534;
+
+  --color-warning: #FACC15;
+  --color-warning-light: #FEF08A;
+  --color-warning-dark: #CA8A04;
+
+  --color-danger: #EF4444;
+  --color-danger-dark: #B91C1C;
+  --color-danger-light: #FECACA;
+
+  --color-background: #f9fafb; 
+  --color-background-white: #FBFBFB;
+  --color-background-soft: #F3F4F6;
+
+  --color-text-white: #FFFFFF;
+  --color-text-gray: #374151;
+  --color-text-black: #1F2937;
+  --color-text-silver: #ACB5BB;
+  --color-text-muted: #9CA3AF;
+
+  --gradient-primary: linear-gradient(90deg, #60A5FA, #2F80ED);
+  --gradient-success: linear-gradient(90deg, #86EFAC, #22C55E);
+  --gradient-danger: linear-gradient(90deg, #FECACA, #EF4444);
+
+  --color-border: #E5E7EB;
+  --color-border-light: #F3F4F6;
+  --shadow-full-blur: 0 4px 20px rgba(0, 0, 0, 0.2);
+
+  --font-poppins: "Poppins", sans-serif;
+}

@@ -222,32 +222,50 @@ export default {
       return this.answers.reduce((sum, answer) => sum + answer, 0)
     }
   },
-  methods: {
-    selectAnswer(questionIndex, value) {
-      this.answers[questionIndex] = value;
-      this.error = ''; // Clear error when user makes changes
-    },
-    
-    createPlaylist() {
-      if (!this.isFormComplete) {
-        this.error = 'Please answer all questions before creating a playlist.';
-        return;
-      }
+ methods: {
+  selectAnswer(questionIndex, value) {
+    this.answers[questionIndex] = value;
+    this.error = ''; // Clear error when user makes changes
+  },
+  
+  async createPlaylist() {
+    if (!this.isFormComplete) {
+      this.error = 'Please answer all questions before creating a playlist.';
+      return;
+    }
 
-      // Get pre_mood from route query or localStorage
-      const pre_mood = this.$route.query.pre_mood || localStorage.getItem('pre_mood') || 5;
-      
-      // Store data in localStorage for LoadingAnimationView to use
-      localStorage.setItem('phq9_score', this.totalScore);
+    const pre_mood = this.$route.query.pre_mood || localStorage.getItem('pre_mood') || 5;
+    const phq9_score = this.totalScore;
+
+    this.isLoading = true;
+    this.error = '';
+
+    try {
+      // Panggil API create playlist
+      const response = await playlistService.createPlaylist(pre_mood, phq9_score);
+
+      // Simpan hasil ke localStorage (optional)
+      localStorage.setItem('phq9_score', phq9_score);
       localStorage.setItem('pre_mood', pre_mood);
-      
-      // Navigate to loading animation view
-      this.$router.push({
-        name: 'loading-animation'
-      });
+      localStorage.setItem('playlist_result', JSON.stringify(response));
 
+      // Ambil id playlist dari response (jika ada)
+      const playlistId = response?.data?.id || response?.id || null;
+
+      // Navigasi ke halaman hasil playlist
+      this.$router.push({
+        name: 'playlist-result',
+        query: { id: playlistId }
+      });
+    } catch (err) {
+      console.error(err);
+      this.error = err.response?.data?.message || 'Failed to create playlist. Please try again.';
+    } finally {
+      this.isLoading = false;
     }
   }
+}
+
 }
 </script>
 

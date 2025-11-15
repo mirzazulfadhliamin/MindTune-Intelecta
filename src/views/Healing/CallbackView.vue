@@ -1,21 +1,21 @@
 <template>
-  <div class="flex flex-col justify-center items-center px-4 min-h-screen bg-gray-50">
-    <div class="p-8 space-y-8 w-full max-w-md bg-white rounded-lg shadow-md">
+  <div class="flex flex-col justify-center items-center px-4 min-h-screen bg-background">
+    <div class="p-8 space-y-8 w-full max-w-md bg-background rounded-lg shadow-md">
       <div class="text-center">
-        <h2 v-if="!error" class="mt-6 text-3xl font-bold text-blue-500">Login Berhasil!</h2>
-        <h2 v-else class="mt-6 text-3xl font-bold text-red-500">Login Gagal</h2>
+        <h2 v-if="!error" class="mt-6 text-3xl font-bold text-primary">Login Berhasil!</h2>
+        <h2 v-else class="mt-6 text-3xl font-bold text-danger">Login Gagal</h2>
         
-        <p v-if="!error" class="mt-3 text-sm text-blue-500">
+        <p v-if="!error" class="mt-3 text-sm text-primary">
           Anda telah berhasil login dengan Spotify. Anda akan dialihkan ke halaman utama dalam beberapa saat.
         </p>
-        <p v-else class="mt-3 text-sm text-red-500">
+        <p v-else class="mt-3 text-sm text-danger">
           Terjadi kesalahan saat proses login. Anda akan dialihkan ke halaman utama dalam beberapa saat.
           <span v-if="error" class="block mt-2 text-xs text-gray-500">{{ error }}</span>
         </p>
       </div>
       <div class="flex justify-center mt-8">
         <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2" 
-             :class="{'border-blue-500': !error, 'border-red-500': error}"></div>
+             :class="{'border-primary': !error, 'border-danger': error}"></div>
       </div>
     </div>
   </div>
