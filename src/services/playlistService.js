@@ -25,5 +25,17 @@ export const playlistService = {
       console.error('Error fetching playlist:', error);
       throw error;
     }
+  },
+
+  async submitFeedback(playlistId, post_mood, feedback) {
+    try {
+      const { api } = useAuth();
+      const response = await api.get(`${API_BASE_URL}/api/playlists/${playlistId}/feedback?post_mood=${post_mood}&feedback=${encodeURIComponent(feedback)}`);
+      
+      return response.data;
+    } catch (error) {
+      console.error('Error submitting feedback:', error);
+      throw error;
+    }
   }
 };

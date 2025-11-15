@@ -1,22 +1,33 @@
 <template>
-  <div class="min-h-screen bg-background">
-    <div class="max-w-7xl mx-auto px-4 py-8">
+  <div class="min-h-screen bg-gray-50">
+    <div class="px-4 py-8 mx-auto mt-16 max-w-7xl">
       <!-- Header -->
-      <h1 class="text-4xl font-bold mb-8 text-primary">
+      <h1
+          class="mb-8 text-4xl font-bold transition-colors duration-500"
+          :class="mode === 'healing' ? 'text-blue-600' : 'text-orange-600'"
+      >
         Dashboard
       </h1>
 
       <!-- Stats Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="grid grid-cols-1 gap-6 mb-8 md:grid-cols-3">
         <!-- Total Sessions -->
-        <div class="bg-background-white rounded-2xl border-2 border-gray-200 p-6 flex items-center justify-between">
+        <div class="flex justify-between items-center p-6 bg-white rounded-2xl border-2 border-gray-200">
           <div>
-            <p class="text-sm text-text-gray mb-1">Total Sessions</p>
-            <p class="text-4xl font-bold text-primary">
-              18
+            <p class="mb-1 text-sm text-gray-600">Total Sessions</p>
+            <p v-if="isLoading" class="text-gray-500">Loading...</p>
+            <p
+                v-else
+                class="text-3xl font-bold transition-colors duration-500"
+                :class="mode === 'healing' ? 'text-blue-600' : 'text-orange-600'"
+            >
+              {{ stats.total_sessions }}
             </p>
           </div>
-          <div class="w-16 h-16 rounded-2xl flex items-center justify-center bg-primary/10">
+          <div
+              class="flex justify-center items-center w-16 h-16 rounded-2xl transition-colors duration-500"
+              :class="mode === 'healing' ? 'bg-blue-100' : 'bg-orange-100'"
+          >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
@@ -38,14 +49,22 @@
         </div>
 
         <!-- Avg Mood Improvement -->
-        <div class="bg-background-white rounded-2xl border-2 border-gray-200 p-6 flex items-center justify-between">
+        <div class="flex justify-between items-center p-6 bg-white rounded-2xl border-2 border-gray-200">
           <div>
-            <p class="text-sm text-text-gray mb-1">Avg Mood Improvement</p>
-            <p class="text-4xl font-bold text-primary">
-              +2.9
+            <p class="mb-1 text-sm text-gray-600">Avg Mood Improvement</p>
+            <p v-if="isLoading" class="text-gray-500">Loading...</p>
+            <p
+                v-else
+                class="text-3xl font-bold transition-colors duration-500"
+                :class="mode === 'healing' ? 'text-blue-600' : 'text-orange-600'"
+            >
+              +{{ stats.avg_mood_improvement }}
             </p>
           </div>
-          <div class="w-16 h-16 rounded-2xl flex items-center justify-center bg-primary/10">
+          <div
+              class="flex justify-center items-center w-16 h-16 rounded-2xl transition-colors duration-500"
+              :class="mode === 'healing' ? 'bg-blue-100' : 'bg-orange-100'"
+          >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
@@ -65,14 +84,22 @@
         </div>
 
         <!-- Most Frequent Genre -->
-        <div class="bg-background-white rounded-2xl border-2 border-gray-200 p-6 flex items-center justify-between">
+        <div class="flex justify-between items-center p-6 bg-white rounded-2xl border-2 border-gray-200">
           <div>
-            <p class="text-sm text-text-gray mb-1">Most Frequent Genre</p>
-            <p class="text-4xl font-bold text-primary">
-              Classical
+            <p class="mb-1 text-sm text-gray-600">Most Frequent Genre</p>
+            <p v-if="isLoading" class="text-gray-500">Loading...</p>
+            <p
+                v-else
+                class="text-3xl font-bold transition-colors duration-500"
+                :class="mode === 'healing' ? 'text-blue-600' : 'text-orange-600'"
+            >
+              {{ stats.most_frequent_genre }}
             </p>
           </div>
-          <div class="w-16 h-16 rounded-2xl flex items-center justify-center bg-primary/10">
+          <div
+              class="flex justify-center items-center w-16 h-16 rounded-2xl transition-colors duration-500"
+              :class="mode === 'healing' ? 'bg-blue-100' : 'bg-orange-100'"
+          >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
@@ -94,8 +121,8 @@
       </div>
 
       <!-- Session History -->
-      <div class="bg-background-white rounded-2xl border-2 border-gray-200 p-8">
-        <div class="flex items-center space-x-2 mb-6">
+      <div class="p-8 bg-white rounded-2xl border-2 border-gray-200">
+        <div class="flex items-center mb-6 space-x-2">
           <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -119,23 +146,32 @@
         </div>
 
         <!-- Session List -->
-        <div class="space-y-4">
+        <div v-if="isLoading" class="p-8 text-center text-gray-500">
+          <p>Loading session history...</p>
+        </div>
+        <div v-else-if="sessions.length === 0" class="p-8 text-center text-gray-500">
+          <p>No session history available</p>
+        </div>
+        <div v-else class="space-y-4">
           <div
               v-for="session in sessions"
               :key="session.id"
-              @click="goToDetail(session.id)"
-              class="cursor-pointer flex items-center justify-between p-5 border-2 border-gray-200 rounded-xl hover:border-gray-300 transition-colors"
+              @click="goToDetail(session.originalId)"
+              class="flex justify-between items-center p-5 rounded-xl border-2 border-gray-200 transition-colors cursor-pointer hover:border-gray-300"
           >
-            <div class="flex items-center space-x-4 flex-1">
+            <div class="flex flex-1 items-center space-x-4">
               <!-- Session Number -->
-              <div class="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg bg-primary/10 text-primary">
-                #{{ session.id }}
+              <div
+                  class="flex justify-center items-center w-12 h-12 text-lg font-bold rounded-xl transition-colors duration-500"
+                  :class="mode === 'healing' ? 'bg-blue-100 text-blue-600' : 'bg-orange-100 text-orange-600'"
+              >
+                {{ session.displayId }}
               </div>
 
               <!-- Session Info -->
               <div class="flex-1">
-                <h3 class="font-bold text-text-black mb-1">{{ session.title }}</h3>
-                <div class="flex items-center space-x-4 text-sm text-text-gray">
+                <h3 class="mb-1 font-bold text-gray-900">{{ session.title }}</h3>
+                <div class="flex items-center space-x-4 text-sm text-gray-600">
                   <div class="flex items-center space-x-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <circle cx="12" cy="12" r="10"></circle>
@@ -143,7 +179,7 @@
                     </svg>
                     <span>{{ session.time }}</span>
                   </div>
-                  <span class="px-2 py-1 bg-gray-200 text-text-gray rounded text-xs">{{ session.level }}</span>
+                  <span class="px-2 py-1 text-xs text-gray-700 bg-gray-200 rounded">{{ session.level }}</span>
                   <div class="flex items-center space-x-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <circle cx="12" cy="12" r="10"></circle>
@@ -158,17 +194,35 @@
             </div>
 
             <!-- Mood Change -->
-            <div class="flex items-center space-x-6 mr-4">
+            <div class="flex items-center mr-4 space-x-6">
               <div class="text-right">
-                <p class="text-xs text-text-gray mb-1">Pre Mood</p>
-                <p class="font-bold text-lg text-primary">
+                <p class="mb-1 text-xs text-gray-600">Pre Mood</p>
+                <p
+                    class="text-lg font-bold transition-colors duration-500"
+                    :class="mode === 'healing' ? 'text-blue-600' : 'text-orange-600'"
+                >
                   {{ session.preMood }}/10
                 </p>
               </div>
 
-              <!-- Arrow Up/Down -->
+              <!-- Arrow Up/Down/Dash -->
               <svg
-                  v-if="session.moodChange > 0"
+                  v-if="session.postMood === null"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="text-gray-400"
+                  stroke="currentColor"
+              >
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <svg
+                  v-else-if="session.moodChange > 0"
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
                   height="24"
@@ -201,12 +255,12 @@
               </svg>
 
               <div class="text-right">
-                <p class="text-xs text-text-gray mb-1">Post Mood</p>
+                <p class="mb-1 text-xs text-gray-600">Post Mood</p>
                 <p
-                    class="font-bold text-lg"
-                    :class="session.moodChange > 0 ? 'text-green-600' : 'text-danger'"
+                    class="text-lg font-bold"
+                    :class="session.postMood !== null ? (session.moodChange > 0 ? 'text-green-600' : 'text-red-600') : 'text-gray-600'"
                 >
-                  {{ session.postMood }}/10
+                  {{ session.postMood !== null ? `${session.postMood}/10` : 'Belum disubmit' }}
                 </p>
               </div>
             </div>
@@ -224,6 +278,7 @@
 
 <script>
 import { useTheme } from "@/composables/useTheme"
+import { dashboardService } from "@/services/dashboardService"
 
 export default {
   name: 'DashboardPage',
@@ -233,43 +288,65 @@ export default {
   },
   data() {
     return {
-      sessions: [
-        {
-          id: 10,
-          title: 'Deep Relaxation',
-          time: '2 hours ago',
-          level: 'Mild Depression',
-          genre: 'Lo-fi Chill, Acoustic',
-          preMood: 3,
-          postMood: 7,
-          moodChange: 4
-        },
-        {
-          id: 9,
-          title: 'Deep Relaxation',
-          time: '2 hours ago',
-          level: 'Mild Depression',
-          genre: 'Lo-fi Chill, Acoustic',
-          preMood: 8,
-          postMood: 6,
-          moodChange: -2
-        },
-        {
-          id: 8,
-          title: 'Deep Relaxation',
-          time: '2 hours ago',
-          level: 'Mild Depression',
-          genre: 'Lo-fi Chill, Acoustic',
-          preMood: 3,
-          postMood: 7,
-          moodChange: 4
-        }
-      ]
+      sessions: [],
+      stats: {
+        total_sessions: 0,
+        avg_mood_improvement: 0,
+        most_frequent_genre: ''
+      },
+      isLoading: true
     }
   },
+  mounted() {
+    this.fetchDashboardData()
+  },
   methods: {
+    async fetchDashboardData() {
+      this.isLoading = true
+      try {
+        // Fetch playlists data
+        const playlistsData = await dashboardService.getPlaylists()
+        
+        // Map data dan urutkan berdasarkan ID secara menurun (descending)
+        const mappedData = playlistsData.map(playlist => {
+          // Format genres as comma-separated string
+          const genreString = playlist.genres.map(g => g.name).join(', ')
+          
+          return {
+            originalId: playlist.id, // Simpan ID asli untuk keperluan navigasi
+            id: playlist.id, // Tetap simpan ID asli untuk pengurutan
+            title: playlist.name,
+            time: playlist.time_ago,
+            level: playlist.depression_level,
+            genre: genreString,
+            preMood: parseInt(playlist.pre_mood),
+            postMood: playlist.post_mood ? parseInt(playlist.post_mood) : null,
+            moodChange: playlist.post_mood ? parseInt(playlist.post_mood) - parseInt(playlist.pre_mood) : null,
+            link: playlist.link_playlist
+          }
+        }).sort((a, b) => b.id - a.id) // Urutkan secara descending berdasarkan ID
+        
+        // Ambil maksimal 10 data dan tambahkan displayId
+        const slicedData = mappedData.slice(0, 10)
+        
+        // Tambahkan displayId berformat #1, #2, #3, dst.
+        this.sessions = slicedData.map((session, index) => {
+          // Hitung displayId berdasarkan jumlah total data
+          const displayId = `#${slicedData.length - index}`
+          return { ...session, displayId }
+        })
+        
+        // Fetch dashboard stats
+        this.stats = await dashboardService.getDashboardStats()
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error)
+      } finally {
+        this.isLoading = false
+      }
+    },
+    
     goToDetail(id) {
-      this.$router.push(`/playlist/${id}`)
+      this.$router.push(`/playlist-detail?id=${id}`)
     }
   }
 }
