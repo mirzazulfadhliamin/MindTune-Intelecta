@@ -16,7 +16,7 @@ const goToQuestionnaire = () => {
 <template>
   <div class="px-4 pt-24 pb-12 sm:px-6 lg:px-8">
     <div
-        class="max-w-3xl p-8 mx-auto bg-background-white rounded-2xl shadow-full-blur font-poppins"
+        class="p-8 mx-auto max-w-3xl rounded-2xl bg-background-white shadow-full-blur font-poppins"
     >
       <div class="space-y-8">
         <div class="text-center">
@@ -32,7 +32,7 @@ const goToQuestionnaire = () => {
 
         <button
             @click="goToQuestionnaire"
-            class="w-full py-4 font-medium text-white transition-all bg-gradient-to-r from-primary-health-light to-primary-health rounded-lg hover:shadow-full-blur"
+            class="py-4 w-full text-lg font-medium text-white bg-gradient-to-r rounded-lg transition-all cursor-pointer bg-primary-health hover:bg-primary-health-hover"
         >
           Continue to Assessment
         </button>

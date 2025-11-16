@@ -1,84 +1,72 @@
-<script>
-import { playlistService } from "@/services/playlistService";
-import { getMoodEmoji, getMoodLabel, formatDuration } from "@/utils/utils";
+<script setup>
+import { ref, computed, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { playlistService } from '@/services/playlistService'
+import { getMoodEmoji, getMoodLabel } from '@/utils/utils'
+import { formattedDuration as formatDurationUtil, formattedGenres as formatGenresUtil } from '@/utils/utils'
 
-export default {
-  name: "PlaylistResult",
-  data() {
-    return {
-      playlist: null,
-      loading: true,
-      error: null,
-    };
-  },
-  computed: {
-    moodEmoji() {
-      return this.playlist ? getMoodEmoji(this.playlist.pre_mood) : "😐";
-    },
-    moodLabel() {
-      return this.playlist ? getMoodLabel(this.playlist.pre_mood) : "Neutral";
-    },
-    formattedDuration() {
-      return this.playlist ? formatDuration(this.playlist.duration) : "0 minutes";
-    },
-    formattedGenres() {
-      if (!this.playlist || !this.playlist.genres || this.playlist.genres.length === 0) {
-        return "Unknown";
-      }
-      const genreNames = this.playlist.genres.slice(0, 2).map((genre) => genre.name);
-      return genreNames.join(", ");
-    },
-  },
-  methods: {
-    async fetchPlaylistData() {
-      try {
-        const playlistId = this.$route.query.playlistId;
-        if (!playlistId) {
-          this.error = "No playlist ID provided";
-          return;
-        }
+const router = useRouter()
+const route = useRoute()
 
-        const response = await playlistService.getPlaylistById(playlistId);
-        this.playlist = response;
-      } catch (error) {
-        console.error("Error fetching playlist:", error);
-        this.error = "Failed to load playlist data";
-      } finally {
-        this.loading = false;
-      }
-    },
-    createNewPlaylist() {
-      this.$router.push({ name: "moodslider" });
-    },
-  },
-  mounted() {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+const playlist = ref(null)
+const loading = ref(true)
+const error = ref(null)
 
-    if (this.$route.params.playlist) {
-      this.playlist = this.$route.params.playlist;
-      this.loading = false;
-    } else {
-      this.fetchPlaylistData();
+onMounted(() => {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+  if (route.params.playlist) {
+    playlist.value = route.params.playlist
+    loading.value = false
+  } else {
+    fetchPlaylistData()
+  }
+})
+
+const moodEmoji = computed(() =>
+  playlist.value ? getMoodEmoji(playlist.value.pre_mood) : '😐'
+)
+const moodLabel = computed(() =>
+  playlist.value ? getMoodLabel(playlist.value.pre_mood) : 'Neutral'
+)
+const formattedDuration = computed(() =>
+  playlist.value ? formatDurationUtil(playlist.value.duration) : '0 minutes'
+)
+const formattedGenres = computed(() => {
+  const p = playlist.value
+  if (!p || !p.genres || p.genres.length === 0) return 'Unknown'
+  return formatGenresUtil(p.genres, 2)
+})
+
+const fetchPlaylistData = async () => {
+  try {
+    const playlistId = route.query.playlistId
+    if (!playlistId) {
+      error.value = 'No playlist ID provided'
+      return
     }
-  },
-};
+    const response = await playlistService.getPlaylistById(playlistId)
+    playlist.value = response
+  } catch (e) {
+    console.error('Error fetching playlist:', e)
+    error.value = 'Failed to load playlist data'
+  } finally {
+    loading.value = false
+  }
+}
 </script>
 
 <template>
-  <div class="flex justify-center items-center min-h-screen bg-background-soft px-4">
+  <div class="flex justify-center items-center px-4 mt-12 min-h-screen bg-background-soft">
     <!-- Card Loaded -->
     <div
         v-if="playlist"
-        class="w-full max-w-4xl bg-background-white rounded-2xl shadow-[0_0_20px_0_rgba(0,0,0,0.1)] p-6 sm:p-8 mx-auto"
+        class="p-6 mx-auto w-full max-w-4xl rounded-2xl bg-background-white shadow-full-blur sm:p-8"
     >
       <div class="space-y-8">
         <!-- Title & Description -->
         <div class="mb-8 space-y-2 text-center">
           <h1
-              class="text-2xl sm:text-3xl font-bold"
+              class="text-2xl font-bold sm:text-3xl"
               :class="playlist.mode === 'healing' ? 'text-primary-health' : 'text-primary-everyday'"
           >
             Your Personalized
@@ -122,7 +110,7 @@ export default {
 
           <!-- Mood -->
           <div
-              class="flex-1 rounded-xl p-4 text-center shadow-sm border"
+              class="flex-1 p-4 text-center rounded-xl border shadow-sm"
               :class="
               playlist.mode === 'healing'
                 ? 'border-primary-health-light bg-primary-health-soft'
@@ -148,7 +136,7 @@ export default {
 
         <!-- Main Playlist Card -->
         <div
-            class="rounded-xl p-6 text-white shadow-lg"
+            class="p-6 text-white rounded-xl shadow-lg"
             :class="playlist.mode === 'healing' ? 'bg-primary-health' : 'bg-primary-everyday'"
         >
           <div class="flex items-center mb-4 space-x-3">
@@ -172,7 +160,7 @@ export default {
             {{ playlist.created_at }}
           </p>
 
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 text-sm">
+          <div class="grid grid-cols-1 gap-4 mb-6 text-sm sm:grid-cols-3">
             <div>
               <p class="opacity-70">Durasi</p>
               <p class="font-semibold">
@@ -197,7 +185,7 @@ export default {
           <a
               :href="playlist.link_playlist"
               target="_blank"
-              class="w-full py-3 bg-white rounded-lg font-semibold transition-all flex items-center justify-center space-x-2 shadow-sm"
+              class="flex justify-center items-center py-3 space-x-2 w-full font-semibold bg-white rounded-lg shadow-sm transition-all"
               :class="
               playlist.mode === 'healing'
                 ? 'text-primary-health hover:bg-primary-health-soft'
@@ -205,7 +193,7 @@ export default {
             "
           >
             <img
-                src="../assets/spotify_blue.svg"
+                src="/src/assets/spotify_blue.svg"
                 alt="Spotify Icon"
                 class="w-6 h-6"
             />
@@ -216,7 +204,7 @@ export default {
         <!-- Continue to Feedback -->
         <button
             @click="$router.push({ name: 'Feedback', query: { playlistId: playlist.id } })"
-            class="w-full py-3 border text-gray rounded-lg font-medium cursor-pointer transition-all duration-300 bg-background-white border-silver hover:bg-background-soft"
+            class="py-3 w-full font-medium rounded-lg border transition-all duration-300 cursor-pointer text-gray bg-background-white border-silver hover:bg-background-soft"
         >
           Continue To Feedback
         </button>

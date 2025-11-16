@@ -1,108 +1,108 @@
-<script>
-import { useTheme } from "@/composables/useTheme"
-import { playlistDetailService } from "@/services/playlistDetailService"
-import { getMoodEmoji } from "@/utils/utils"
+<script setup>
+import { ref, computed, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { playlistDetailService } from '@/services/playlistDetailService'
+import { getMoodEmoji as getMoodEmojiUtil } from '@/utils/utils'
+import { formattedDuration as formatDurationUtil, formattedGenres as formatGenresUtil } from '@/utils/utils'
 
-export default {
-  name: 'PlaylistDetail',
-  setup() {
-    const { mode } = useTheme()
-    return { mode }
-  },
-  data() {
-    return {
-      showDeleteModal: false,
-      isLoading: true,
-      playlistId: null,
-      playlist: {
-        id: '',
-        spotify_id: '',
-        name: '',
-        phq9_score: 0,
-        depression_level: '',
-        pre_mood: 0,
-        post_mood: 0,
-        duration: 0,
-        total_tracks: 0,
-        link_playlist: '',
-        feedback: '',
-        mode: 'healing',
-        created_at: '',
-        time_ago: '',
-        tracks: [],
-        genres: []
-      }
-    }
-  },
-  computed: {
-    formattedDuration() {
-      const totalSeconds = Math.floor(this.playlist.duration / 1000);
-      const minutes = Math.floor(totalSeconds / 60);
-      const seconds = totalSeconds % 60;
-      return `${minutes} minutes${seconds > 0 ? ` ${seconds} seconds` : ''}`;
-    },
-    formattedGenres() {
-      return this.playlist.genres.map(genre => genre.name).join(', ');
-    }
-  },
-  mounted() {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+const router = useRouter()
+const route = useRoute()
 
-    const urlParams = new URLSearchParams(window.location.search);
-    this.playlistId = urlParams.get('id');
+const showDeleteModal = ref(false)
+const isLoading = ref(true)
+const isDeleting = ref(false)
+const playlistId = ref(null)
+const playlist = ref({
+  id: '',
+  spotify_id: '',
+  name: '',
+  phq9_score: 0,
+  depression_level: '',
+  pre_mood: 0,
+  post_mood: 0,
+  duration: 0,
+  total_tracks: 0,
+  link_playlist: '',
+  feedback: '',
+  mode: 'healing',
+  created_at: '',
+  time_ago: '',
+  tracks: [],
+  genres: []
+})
 
-    if (this.playlistId) {
-      this.fetchPlaylistDetail();
-    } else {
-      console.error('No playlist ID provided');
-      this.$router.push('/dashboard');
-    }
-  },
-  methods: {
-    async fetchPlaylistDetail() {
-      this.isLoading = true;
-      try {
-        const data = await playlistDetailService.getPlaylistDetail(this.playlistId);
-        this.playlist = data;
-        this.isLoading = false;
-      } catch (error) {
-        console.error('Error fetching playlist detail:', error);
-        this.isLoading = false;
-      }
-    },
-    goBack() {
-      this.$router.push('/dashboard')
-    },
-    deleteSession() {
-      console.log('Session deleted')
-      this.showDeleteModal = false
-      this.$router.push('/dashboard')
-    },
-    formatTrackDuration(milliseconds) {
-      const totalSeconds = Math.floor(milliseconds / 1000);
-      const minutes = Math.floor(totalSeconds / 60);
-      const seconds = totalSeconds % 60;
-      return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-    },
-    openInSpotify() {
-      if (this.playlist.link_playlist) {
-        window.open(this.playlist.link_playlist.trim(), '_blank');
-      }
-    },
-    goToFeedback() {
-      this.$router.push({
-        path: '/Feedback',
-        query: { playlistId: this.playlistId }
-      });
-    },
-    getMoodEmoji(mood) {
-      return getMoodEmoji(mood);
-    }
+onMounted(() => {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+
+  const urlParams = new URLSearchParams(window.location.search)
+  const id = urlParams.get('id')
+  playlistId.value = id
+
+  if (id) {
+    fetchPlaylistDetail()
+  } else {
+    console.error('No playlist ID provided')
+    router.push('/dashboard')
+  }
+})
+
+const formattedDuration = computed(() => formatDurationUtil(playlist.value?.duration || 0))
+
+const formattedGenres = computed(() => formatGenresUtil(playlist.value?.genres || []))
+
+const fetchPlaylistDetail = async () => {
+  isLoading.value = true
+  try {
+    const data = await playlistDetailService.getPlaylistDetail(playlistId.value)
+    playlist.value = data
+  } catch (error) {
+    console.error('Error fetching playlist detail:', error)
+  } finally {
+    isLoading.value = false
   }
 }
+
+const goBack = () => {
+  router.push('/dashboard')
+}
+
+const deletePlaylist = async () => {
+  if (isDeleting.value) return
+  try {
+    if (!playlistId.value) {
+      console.error('No playlist ID provided')
+      return
+    }
+    isDeleting.value = true
+    await playlistDetailService.deletePlaylist(playlistId.value)
+    showDeleteModal.value = false
+    router.push('/dashboard')
+  } catch (error) {
+    console.error('Error deleting playlist:', error)
+  } finally {
+    isDeleting.value = false
+  }
+}
+
+const formatTrackDuration = (milliseconds) => {
+  const totalSeconds = Math.floor(milliseconds / 1000)
+  const minutes = Math.floor(totalSeconds / 60)
+  const seconds = totalSeconds % 60
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`
+}
+
+const openInSpotify = () => {
+  const link = playlist.value?.link_playlist
+  if (link) {
+    window.open(link.trim(), '_blank')
+  }
+}
+
+const goToFeedback = () => {
+  router.push({ path: '/Feedback', query: { playlistId: playlistId.value } })
+}
+
+const getMoodEmoji = (mood) => getMoodEmojiUtil(mood)
 </script>
 
 <template>
@@ -111,7 +111,7 @@ export default {
       <!-- Back Button -->
       <button
           @click="goBack"
-          class="flex items-center mb-6 space-x-2 text-gray transition-colors cursor-pointer hover:text-black"
+          class="flex items-center mb-6 space-x-2 transition-colors cursor-pointer text-gray hover:text-black"
       >
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -140,7 +140,7 @@ export default {
       <div v-else>
         <!-- Main Card -->
         <div
-            class="p-8 mb-6 bg-background-white rounded-3xl border-2 border-border md:p-10 animate-card-entrance"
+            class="p-8 mb-6 rounded-3xl border-2 bg-background-white border-border md:p-10 animate-card-entrance"
         >
           <div class="flex justify-between items-start mb-8">
             <!-- Left Side: Icon and Info -->
@@ -174,7 +174,7 @@ export default {
                 </h1>
                 <div class="flex items-center space-x-3">
                   <span
-                      class="px-3 py-1 text-sm font-medium text-gray bg-background-soft rounded-lg"
+                      class="px-3 py-1 text-sm font-medium rounded-lg text-gray bg-background-soft"
                   >
                     {{ playlist.depression_level }}
                   </span>
@@ -279,7 +279,7 @@ export default {
                 <button
                     v-if="!playlist.post_mood"
                     @click="goToFeedback"
-                    class="cursor-pointer px-4 py-2 mt-2 text-sm font-medium text-white rounded-lg transition-colors duration-300"
+                    class="px-4 py-2 mt-2 text-sm font-medium text-white rounded-lg transition-colors duration-300 cursor-pointer"
                     :class="
                     playlist.mode === 'healing'
                       ? 'bg-blue-500 hover:bg-blue-600'
@@ -345,7 +345,7 @@ export default {
 
         <!-- Tracks Card -->
         <div
-            class="p-8 mb-6 bg-background-white rounded-3xl border-2 border-border md:p-10 animate-card-entrance"
+            class="p-8 mb-6 rounded-3xl border-2 bg-background-white border-border md:p-10 animate-card-entrance"
         >
           <div class="flex items-center mb-6 space-x-2">
             <svg
@@ -371,11 +371,11 @@ export default {
             <div
                 v-for="(track, index) in playlist.tracks"
                 :key="index"
-                class="flex justify-between items-center p-4 bg-background-soft rounded-xl transition-colors hover:bg-border-light"
+                class="flex justify-between items-center p-4 rounded-xl transition-colors bg-background-soft hover:bg-border-light"
             >
               <div class="flex items-center space-x-4">
                 <div
-                    class="flex justify-center items-center w-10 h-10 font-semibold text-gray rounded-lg transition-colors duration-500"
+                    class="flex justify-center items-center w-10 h-10 font-semibold rounded-lg transition-colors duration-500 text-gray"
                     :class="
                     playlist.mode === 'healing' ? 'bg-blue-100' : 'bg-orange-100'
                   "
@@ -419,7 +419,7 @@ export default {
       <button
           v-if="!isLoading"
           @click="showDeleteModal = true"
-          class="flex justify-center items-center px-6 py-4 space-x-2 w-full font-semibold text-red-600 bg-background-white rounded-2xl border-2 border-red-300 transition-all duration-300 cursor-pointer hover:bg-red-50 hover:shadow-md"
+          class="flex justify-center items-center px-6 py-4 space-x-2 w-full font-semibold text-red-600 rounded-2xl border-2 border-red-300 transition-all duration-300 cursor-pointer bg-background-white hover:bg-red-50 hover:shadow-md"
       >
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -445,13 +445,13 @@ export default {
     <!-- Delete Modal -->
     <div
         v-if="showDeleteModal"
-        @click="showDeleteModal = false"
+        @click="!isDeleting && (showDeleteModal = false)"
         class="flex fixed inset-0 z-50 justify-center items-center px-4 animate-fade-in"
         style="background-color: rgba(0, 0, 0, 0.2);"
     >
       <div
           @click.stop
-          class="p-8 w-full max-w-md bg-background-white rounded-2xl shadow-2xl animate-modal-entrance"
+          class="p-8 w-full max-w-md rounded-2xl shadow-2xl bg-background-white animate-modal-entrance"
       >
         <!-- Icon -->
         <div class="flex justify-center mb-6">
@@ -480,8 +480,8 @@ export default {
 
         <!-- Close Button -->
         <button
-            @click="showDeleteModal = false"
-            class="absolute top-4 right-4 text-silver transition-colors cursor-pointer hover:text-gray"
+            @click="!isDeleting && (showDeleteModal = false)"
+            class="absolute top-4 right-4 transition-colors cursor-pointer text-silver hover:text-gray"
         >
           <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -501,7 +501,7 @@ export default {
 
         <!-- Content -->
         <div class="mb-6 text-center">
-          <h2 class="mb-3 text-2xl font-bold text-black">Delete Session</h2>
+          <h2 class="mb-3 text-2xl font-medium text-black">Delete Session</h2>
           <p class="text-muted">
             Are you sure you want to delete this session? This action cannot be
             undone.
@@ -511,16 +511,25 @@ export default {
         <!-- Action Buttons -->
         <div class="flex space-x-3">
           <button
-              @click="showDeleteModal = false"
-              class="flex-1 px-6 py-3 font-semibold text-gray bg-background-white rounded-lg border-2 border-border transition-all duration-300 cursor-pointer hover:bg-background-soft hover:shadow-md"
+              @click="!isDeleting && (showDeleteModal = false)"
+              :disabled="isDeleting"
+              class="flex-1 px-6 py-3 font-semibold rounded-lg border-2 transition-all duration-300 cursor-pointer text-gray bg-background-white border-border hover:bg-background-soft hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Cancel
           </button>
           <button
-              @click="deleteSession"
-              class="flex-1 px-6 py-3 font-semibold text-white bg-red-600 rounded-lg transition-all duration-300 cursor-pointer hover:bg-red-700 hover:shadow-lg"
+              @click="deletePlaylist"
+              :disabled="isDeleting"
+              class="flex-1 px-6 py-3 font-semibold text-white bg-red-600 rounded-lg transition-all duration-300 cursor-pointer hover:bg-red-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-red-600 disabled:hover:shadow-none"
           >
-            Delete
+            <span v-if="!isDeleting">Delete</span>
+            <span v-else class="flex justify-center items-center space-x-2">
+              <span
+                class="w-4 h-4 rounded-full border-t-2 border-b-2 border-white animate-spin"
+                aria-hidden="true"
+              ></span>
+              <span>Menghapus...</span>
+            </span>
           </button>
         </div>
       </div>

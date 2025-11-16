@@ -1,9 +1,47 @@
+<script setup>
+import { ref } from "vue";
+import { useRouter, useRoute } from 'vue-router'
+import MoodSlider from "@/components/MoodSlider.vue";
+import { playlistService } from '@/services/playlistService'
+
+const moodValue = ref(5);
+const description = ref("");
+const router = useRouter()
+const route = useRoute()
+const isSubmitting = ref(false)
+
+const handleSubmit = async () => {
+  try {
+    if (isSubmitting.value) return
+    isSubmitting.value = true
+    const playlistId = route.query.playlistId
+    if (!playlistId) {
+      console.error('playlistId tidak ditemukan di query URL')
+      isSubmitting.value = false
+      return
+    }
+
+    await playlistService.submitFeedback(
+      playlistId,
+      Number(moodValue.value),
+      description.value || ''
+    )
+
+    router.push({ name: 'dashboard' })
+  } catch (error) {
+    console.error('Gagal submit feedback:', error)
+  } finally {
+    isSubmitting.value = false
+  }
+}
+</script>
+
 <template>
-  <div class="pt-24 pb-12 px-4 sm:px-6 lg:px-8 bg-background min-h-screen">
-    <div class="bg-background-white rounded-2xl shadow-full-blur p-8 max-w-3xl mx-auto">
+  <div class="px-4 pt-24 pb-12 min-h-screen sm:px-6 lg:px-8 bg-background-white">
+    <div class="p-8 mx-auto max-w-3xl rounded-2xl bg-background-white shadow-full-blur">
       <div class="space-y-8">
         <div class="text-center">
-          <h2 class="text-2xl font-bold text-text-black mb-2">
+          <h2 class="mb-2 text-2xl font-bold text-black">
             Bagaimana Perasaan Kamu Saat Ini?
           </h2>
           <p class="text-text-gray">
@@ -11,10 +49,10 @@
           </p>
         </div>
         
-        <MoodSlider/>
+        <MoodSlider v-model="moodValue"/>
         
-        <div class="space-y-2">
-          <label class="font-normal text-text-gray">
+        <div class="space-y-1">
+          <label class="font-normal text-gray">
             Deskripsi Tambahan (Opsional)
           </label>
           <textarea
@@ -22,33 +60,29 @@
             placeholder="Bagikan bagaimana perasaan Anda saat ini atau pikiran apa pun yang ingin Anda ungkapkan..."
             rows="4"
             maxlength="500"
-            class="w-full border border-gray-300 rounded-xl p-4 focus:ring-2 focus:ring-primary focus:border-transparent resize-none outline-none transition-colors"
+            :disabled="isSubmitting"
+            class="p-4 mt-2 w-full rounded-xl border border-gray-300 transition-colors outline-none resize-none focus:ring-2 focus:ring-silver focus:border-silver disabled:bg-background-soft disabled:text-text-silver disabled:cursor-not-allowed"
           ></textarea>
-          <div class="text-right text-sm text-text-silver">
+          <div class="text-sm text-right text-text-silver">
             {{ description.length }}/500 karakter
           </div>
         </div>
         
         <button
-          class="w-full py-4 bg-primary text-text-white rounded-lg font-medium hover:shadow-lg transition-all hover:bg-primary-dark"
+          @click="handleSubmit"
+          :disabled="isSubmitting"
+          class="py-3 w-full text-base font-medium text-white bg-gradient-to-r rounded-lg transition-all cursor-pointer bg-primary-health hover:bg-primary-health-hover disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          Continue to Assessment
+          <span v-if="!isSubmitting">Submit Masukan</span>
+          <span v-else class="inline-flex items-center gap-2">
+            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Mengirim...
+          </span>
         </button>
       </div>
     </div>
   </div>
 </template>
-
-<script setup>
-import { ref } from "vue";
-import MoodSlider from "@/components/MoodSlider.vue";
-
-const moodValue = ref(5);
-const description = ref("");
-
-const submitMood = () => {
-  console.log("Nilai mood:", moodValue.value);
-  console.log("Deskripsi:", description.value);
-
-};
-</script>

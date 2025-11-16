@@ -30,7 +30,7 @@ export const getMoodLabel = (pre_mood) => {
     8: "Luar Biasa",
     9: "Menakjubkan",
     10: "Sempurna",
-  };
+};
   return moodLabelMap[pre_mood] || 'Netral';
 };
 
@@ -39,4 +39,20 @@ export const formatDuration = (milliseconds) => {
   
   const minutes = Math.floor(milliseconds / 60000);
   return minutes === 1 ? '1 menit' : `${minutes} menit`;
+};
+
+// English duration formatter used by several views
+export const formattedDuration = (milliseconds) => {
+  if (!milliseconds) return '0 minutes';
+  const totalSeconds = Math.floor(milliseconds / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return seconds > 0 ? `${minutes} minutes ${seconds} seconds` : `${minutes} minutes`;
+};
+
+// Genres formatter to join names; supports optional limit
+export const formattedGenres = (genres, limit = null) => {
+  if (!Array.isArray(genres) || genres.length === 0) return 'Unknown';
+  const names = genres.map((g) => g.name);
+  return (limit && limit > 0) ? names.slice(0, limit).join(', ') : names.join(', ');
 };

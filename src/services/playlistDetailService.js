@@ -12,5 +12,16 @@ export const playlistDetailService = {
             console.error('Error fetching playlist detail:', error);
             throw error;
         }
+    },
+
+    async deletePlaylist(id) {
+        try {
+            const { api } = useAuth();
+            const response = await api.delete(`${API_BASE_URL}/api/playlists/${id}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error deleting playlist:', error);
+            throw error;
+        }
     }
 };
