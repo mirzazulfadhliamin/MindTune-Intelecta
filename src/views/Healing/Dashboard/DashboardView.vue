@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { dashboardService } from '@/services/dashboardService'
+import { formattedGenres } from '@/utils/utils'
 import SessionHistory from '@/views/Healing/dashboard/dashboard-component/SessionHistory.vue'
 import ChartMoodProgress from '@/views/Healing/dashboard/dashboard-component/ChartMoodProgress.vue'
 import CardSummary from './dashboard-component/CardSummary.vue'
@@ -31,7 +32,7 @@ const fetchDashboardData = async () => {
   try {
     const playlistsData = await dashboardService.getPlaylists()
     const mappedData = playlistsData.map((playlist) => {
-      const genreString = playlist.genres.map((g) => g.name).join(', ')
+      const genreString = formattedGenres(playlist.genres || [])
 
       return {
         originalId: playlist.id,

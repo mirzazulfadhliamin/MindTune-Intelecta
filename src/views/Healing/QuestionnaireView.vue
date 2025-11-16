@@ -1,3 +1,70 @@
+<script setup>
+import { ref, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { useTheme } from '@/composables/useTheme'
+
+const { mode } = useTheme()
+const router = useRouter()
+const route = useRoute()
+
+const showModal = ref(false)
+const answers = ref(Array(9).fill(null))
+const isLoading = ref(false)
+const error = ref('')
+
+const options = [
+  { label: 'Tidak Pernah', value: 0 },
+  { label: 'Beberapa Hari', value: 1 },
+  { label: 'Lebih dari separuh waktu yang dimaksud', value: 2 },
+  { label: 'Hampir Setiap Hari', value: 3 },
+]
+
+const questions = [
+  'Kurang berminat atau bergairah dalam melakukan apapun',
+  'Merasa murung, muram, atau putus asa',
+  'Sulit tidur atau mudah terbangun, atau terlalu banyak tidur',
+  'Merasa lelah atau kurang bertenaga',
+  'Kurang nafsu makan atau terlalu banyak makan',
+  'Kurang percaya diri — atau merasa bahwa Anda adalah orang yang gagal atau telah mengecewakan diri sendiri atau keluarga',
+  'Sulit berkonsentrasi pada sesuatu, misalnya membaca koran atau menonton televisi',
+  'Bergerak atau berbicara sangat lambat sehingga orang lain memperhatikannya. Atau sebaliknya — merasa resah atau gelisah sehingga Anda lebih sering bergerak dari biasanya',
+  'Merasa lebih baik mati atau ingin melukai diri sendiri dengan cara apapun',
+]
+
+const isFormComplete = computed(() => answers.value.every((a) => a !== null))
+const totalScore = computed(() => answers.value.reduce((sum, a) => sum + a, 0))
+
+const selectAnswer = (questionIndex, value) => {
+  answers.value[questionIndex] = value
+  error.value = ''
+}
+
+const back = () => {
+  router.back()
+}
+
+const createPlaylist = async () => {
+  if (!isFormComplete.value) {
+    error.value = 'Please answer all questions before creating a playlist.'
+    return
+  }
+
+  const pre_mood = route.query.pre_mood || localStorage.getItem('pre_mood') || 5
+  const phq9_score = totalScore.value
+
+  try {
+    localStorage.setItem('phq9_score', phq9_score)
+    localStorage.setItem('pre_mood', pre_mood)
+    router.push({ 
+      name: 'loading-animation' 
+    })
+  } catch (err) {
+    console.error(err)
+    error.value = err.response?.data?.message || 'Failed to create playlist. Please try again.'
+  }
+}
+</script>
+
 <template>
     <div class="flex justify-center items-center px-4 py-20 h-fit">
       <div class="w-full max-w-4xl">
@@ -178,71 +245,6 @@
       </div>
     </div>
 </template>
-
-<script setup>
-import { ref, computed } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { useTheme } from '@/composables/useTheme'
-
-const { mode } = useTheme()
-const router = useRouter()
-const route = useRoute()
-
-const showModal = ref(false)
-const answers = ref(Array(9).fill(null))
-const isLoading = ref(false)
-const error = ref('')
-
-const options = [
-  { label: 'Tidak Pernah', value: 0 },
-  { label: 'Beberapa Hari', value: 1 },
-  { label: 'Lebih dari separuh waktu yang dimaksud', value: 2 },
-  { label: 'Hampir Setiap Hari', value: 3 },
-]
-
-const questions = [
-  'Kurang berminat atau bergairah dalam melakukan apapun',
-  'Merasa murung, muram, atau putus asa',
-  'Sulit tidur atau mudah terbangun, atau terlalu banyak tidur',
-  'Merasa lelah atau kurang bertenaga',
-  'Kurang nafsu makan atau terlalu banyak makan',
-  'Kurang percaya diri — atau merasa bahwa Anda adalah orang yang gagal atau telah mengecewakan diri sendiri atau keluarga',
-  'Sulit berkonsentrasi pada sesuatu, misalnya membaca koran atau menonton televisi',
-  'Bergerak atau berbicara sangat lambat sehingga orang lain memperhatikannya. Atau sebaliknya — merasa resah atau gelisah sehingga Anda lebih sering bergerak dari biasanya',
-  'Merasa lebih baik mati atau ingin melukai diri sendiri dengan cara apapun',
-]
-
-const isFormComplete = computed(() => answers.value.every((a) => a !== null))
-const totalScore = computed(() => answers.value.reduce((sum, a) => sum + a, 0))
-
-const selectAnswer = (questionIndex, value) => {
-  answers.value[questionIndex] = value
-  error.value = ''
-}
-
-const back = () => {
-  router.back()
-}
-
-const createPlaylist = async () => {
-  if (!isFormComplete.value) {
-    error.value = 'Please answer all questions before creating a playlist.'
-    return
-  }
-
-  const pre_mood = route.query.pre_mood || localStorage.getItem('pre_mood') || 5
-  const phq9_score = totalScore.value
-
-  try {
-    localStorage.setItem('phq9_score', phq9_score)
-    localStorage.setItem('pre_mood', pre_mood)
-    router.push({ name: 'loading-animation' })
-  } catch (err) {
-    console.error(err)
-    error.value = err.response?.data?.message || 'Failed to create playlist. Please try again.'
-  }
-}
-</script>
 
 <style scoped>
 @keyframes card-entrance {

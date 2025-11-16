@@ -3,11 +3,13 @@
 @theme {
   --color-primary-health: #2F80ED;
   --color-primary-health-light: #60A5FA;
+  --color-primary-health-hover: #155CFB;
   --color-primary-health-dark: #1E3A8A;
   --color-primary-health-soft: #E3F2FD;
 
   --color-primary-everyday: #FB923C;
   --color-primary-everyday-light: #FDBA74;
+  --color-primary-everyday-hover: #FF6900;
   --color-primary-everyday-dark: #C2410C;
   --color-primary-everyday-soft: #FFF3E0;
 
