@@ -20,7 +20,7 @@
         class="w-full h-3 rounded-full appearance-none cursor-pointer slider"
       />
       <div
-        class="absolute top-1/2 w-6 h-6 bg-white rounded-full border-4 border-primary shadow-lg transition-all -translate-y-1/2 pointer-events-none"
+        class="absolute top-1/2 w-6 h-6 bg-white rounded-full border-4 border-primary-health shadow-lg transition-all -translate-y-1/2 pointer-events-none"
         :style="thumbStyle"
       ></div>
     </div>
