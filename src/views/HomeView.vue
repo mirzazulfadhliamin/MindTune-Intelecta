@@ -1,25 +1,23 @@
 <template>
-  <div>
+  <div class="relative min-h-screen bg-white">
     <!-- Grid Background -->
-    <div class="overflow-hidden absolute inset-0 bg-white pointer-events-none">
+    <div class="fixed inset-0 bg-white pointer-events-none">
       <div
           class="absolute inset-0 transition-opacity duration-500"
           :style="{
-          backgroundImage: mode === 'healing'
-            ? 'linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px)'
-            : 'linear-gradient(rgba(249, 115, 22, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(249, 115, 22, 0.1) 1px, transparent 1px)',
+          backgroundImage: 'linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px)',
           backgroundSize: '50px 50px'
         }"
       ></div>
     </div>
 
     <!-- Pulsing Music Notes -->
-    <div class="overflow-hidden absolute inset-0 pointer-events-none">
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
       <div
           v-for="note in musicNotes"
           :key="note.id"
           class="absolute transition-colors animate-pulse"
-          :class="mode === 'healing' ? 'text-blue-500' : 'text-orange-500'"
+          :class="'text-blue-500'"
           :style="{
           left: note.left,
           top: note.top,
@@ -37,34 +35,22 @@
       </div>
     </div>
 
-    <div class="flex justify-center items-center px-4 mt-60 h-fit">
+    <div class="relative flex justify-center items-center px-4 py-8 min-h-screen">
       <div class="w-full max-w-2xl">
         <!-- Card -->
-        <div class="p-12 text-center rounded-3xl backdrop-blur-sm bg-white/80 animate-card-entrance"
-             :class="mode === 'healing' ? 'shadow-[0_0_50px_25px_rgba(59,130,246,0.15)]' : 'shadow-2xl shadow-orange-500/20'"
-        >
+        <div class="p-8 md:p-12 text-center rounded-3xl backdrop-blur-sm bg-white/80 animate-card-entrance shadow-[0_0_50px_25px_rgba(59,130,246,0.15)] my-auto">
           <h1
-              class="mb-6 text-4xl font-bold transition-colors duration-500 md:text-5xl"
-              :class="mode === 'healing' ? 'text-blue-500' : 'text-orange-500'"
+              class="mb-6 text-4xl font-bold transition-colors duration-500 md:text-5xl text-blue-500"
           >
-            {{ mode === 'healing' ? 'Heal Through Music' : 'Your Perfect Soundtrack' }}
+            Heal Through Music
           </h1>
-          <template v-if="mode === 'healing'">
-            <p class="mb-10 text-lg text-gray-600">
-              Evidence-based music therapy to support your mental wellness journey.
-              Create playlists scientifically designed to improve your mood.
-            </p>
-          </template>
-          <template v-else>
-            <p class="mb-10 text-lg text-gray-600">
-              AI-powered playlists that match your vibe, context, and mood. Every moment deserves the perfect
-              soundtrack.
-            </p>
-          </template>
+          <p class="mb-10 text-lg text-gray-600">
+            Evidence-based music therapy to support your mental wellness journey.
+            Create playlists scientifically designed to improve your mood.
+          </p>
           <button
               @click="navigateToMoodSlider"
-              class="flex items-center px-8 py-4 mx-auto space-x-3 text-lg font-semibold text-white rounded-full transition-all duration-300 transform cursor-pointer hover:-translate-y-1.5"
-              :class="mode === 'healing' ? 'bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 shadow-lg shadow-blue-500/50 hover:shadow-xl hover:shadow-blue-500/60' : 'bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 shadow-lg shadow-orange-500/50 hover:shadow-xl hover:shadow-orange-500/60'"
+              class="cursor-pointer flex items-center px-8 py-4 mx-auto space-x-3 text-lg font-semibold text-white rounded-full bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 shadow-lg shadow-blue-500/50 hover:shadow-xl hover:shadow-blue-500/60 transition-all duration-200"
           >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -93,20 +79,20 @@
 </template>
 
 <script>
-import {useTheme} from "@/composables/useTheme"
-import {useRouter} from "vue-router"
+import { useTheme } from "@/composables/useTheme"
+import { useRouter } from "vue-router"
 
 export default {
-  name: 'HomePage',
+  name: 'HealingModePage',
   setup() {
-    const {mode} = useTheme()
+    const { mode } = useTheme()
     const router = useRouter()
-    
+
     const navigateToMoodSlider = () => {
       router.push('/mood-slider')
     }
-    
-    return {mode, navigateToMoodSlider}
+
+    return { mode, navigateToMoodSlider }
   },
   data() {
     return {
@@ -114,30 +100,30 @@ export default {
     }
   },
   mounted() {
-    const notes = [];
-    const minDistance = 15;
-    const totalNotes = 30;
+    const notes = []
+    const minDistance = 15
+    const totalNotes = 30
 
     const isTooClose = (newLeft, newTop, existingNotes) => {
       return existingNotes.some(note => {
-        const distanceX = Math.abs(parseFloat(newLeft) - parseFloat(note.left));
-        const distanceY = Math.abs(parseFloat(newTop) - parseFloat(note.top));
-        return distanceX < minDistance && distanceY < minDistance;
-      });
-    };
+        const distanceX = Math.abs(parseFloat(newLeft) - parseFloat(note.left))
+        const distanceY = Math.abs(parseFloat(newTop) - parseFloat(note.top))
+        return distanceX < minDistance && distanceY < minDistance
+      })
+    }
 
     for (let i = 0; i < totalNotes; i++) {
-      let left, top;
-      let attempts = 0;
-      const maxAttempts = 100;
+      let left, top
+      let attempts = 0
+      const maxAttempts = 100
 
       do {
-        left = `${Math.random() * 100}%`;
-        top = `${Math.random() * 100}%`;
-        attempts++;
-      } while (isTooClose(left, top, notes) && attempts < maxAttempts);
+        left = `${Math.random() * 100}%`
+        top = `${Math.random() * 100}%`
+        attempts++
+      } while (isTooClose(left, top, notes) && attempts < maxAttempts)
 
-      const duration = `${2 + Math.random() * 3}s`;
+      const duration = `${2 + Math.random() * 3}s`
 
       notes.push({
         id: i,
@@ -146,10 +132,10 @@ export default {
         delay: `${Math.random() * 5}s`,
         duration: duration,
         size: 24 + Math.random() * 24
-      });
+      })
     }
 
-    this.musicNotes = notes;
+    this.musicNotes = notes
   }
 }
 </script>
