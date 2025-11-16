@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import UserLayout from '@/views/layouts/UserLayout.vue';
 
-import HomeView from '@/views/healing/HomeView.vue';
+import HomeView from '@/views/layouts/HomeLayout.vue';
 import MoodSlider from '@/views/healing/MoodSliderView.vue';
 import PageNotFound from '@/views/error/PageNotFound.vue';
 import QuestionnaireView from "@/views/healing/QuestionnaireView.vue";
