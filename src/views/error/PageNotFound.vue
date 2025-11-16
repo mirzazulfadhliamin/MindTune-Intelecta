@@ -1,16 +1,17 @@
 <template>
-  <div class="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+  <div class="min-h-screen flex items-center justify-center bg-background-color font-poppins">
     <div class="text-center">
-      <h1 class="text-9xl font-bold text-blue-500 mb-4">404</h1>
-      <h2 class="text-2xl font-semibold text-gray-800 mb-3">
+      <h1 class="text-[8rem] font-extrabold text-primary mb-4">404</h1>
+      <h2 class="text-2xl font-semibold text-primary mb-3">
         Oops! That page can't be found
       </h2>
-      <p class="text-gray-600 mb-8">
-        The page you are looking do not exist
+      <p class="text-primary mb-8">
+        The page you are looking for does not exist.
       </p>
       <button
-          @click="goToHome"
-          class="px-6 py-3 bg-white text-blue-500 border border-blue-500 rounded-md font-medium hover:bg-blue-500 hover:text-white transition-colors duration-300 cursor-pointer"
+        @click="goToHome"
+        class="px-6 py-3 border border-primary text-primary bg-white rounded-xl font-medium 
+               hover:bg-primary-healing hover:text-white transition-all duration-300 shadow-full-blur"
       >
         Go To Home
       </button>
@@ -23,8 +24,8 @@ export default {
   name: "PageNotFound",
   methods: {
     goToHome() {
-      this.$router.push('/')
-    }
-  }
-}
+      this.$router.push("/");
+    },
+  },
+};
 </script>

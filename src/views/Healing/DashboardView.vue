@@ -37,8 +37,7 @@
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                :class="mode === 'healing' ? 'text-blue-600' : 'text-orange-600'"
-                class="transition-colors duration-500"
+                class="text-primary"
                 stroke="currentColor"
             >
               <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -75,8 +74,7 @@
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                :class="mode === 'healing' ? 'text-blue-600' : 'text-orange-600'"
-                class="transition-colors duration-500"
+                class="text-primary"
                 stroke="currentColor"
             >
               <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
@@ -111,8 +109,7 @@
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                :class="mode === 'healing' ? 'text-blue-600' : 'text-orange-600'"
-                class="transition-colors duration-500"
+                class="text-primary"
                 stroke="currentColor"
             >
               <path d="M9 18V5l12-2v13"></path>
@@ -135,8 +132,7 @@
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              :class="mode === 'healing' ? 'text-blue-600' : 'text-orange-600'"
-              class="transition-colors duration-500"
+              class="text-primary"
               stroke="currentColor"
           >
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -144,10 +140,7 @@
             <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
             <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
           </svg>
-          <h2
-              class="text-2xl font-bold transition-colors duration-500"
-              :class="mode === 'healing' ? 'text-blue-600' : 'text-orange-600'"
-          >
+          <h2 class="text-2xl font-bold text-primary">
             Session History
           </h2>
         </div>
@@ -254,7 +247,7 @@
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  class="text-red-500"
+                  class="text-danger"
                   stroke="currentColor"
               >
                 <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
@@ -273,7 +266,7 @@
             </div>
 
             <!-- Arrow Right -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-silver">
               <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
           </div>
