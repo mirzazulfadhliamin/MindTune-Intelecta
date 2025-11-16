@@ -10,6 +10,7 @@ const route = useRoute()
 
 const showDeleteModal = ref(false)
 const isLoading = ref(true)
+const isDeleting = ref(false)
 const playlistId = ref(null)
 const playlist = ref({
   id: '',
@@ -65,10 +66,22 @@ const goBack = () => {
   router.push('/dashboard')
 }
 
-const deleteSession = () => {
-  console.log('Session deleted')
-  showDeleteModal.value = false
-  router.push('/dashboard')
+const deletePlaylist = async () => {
+  if (isDeleting.value) return
+  try {
+    if (!playlistId.value) {
+      console.error('No playlist ID provided')
+      return
+    }
+    isDeleting.value = true
+    await playlistDetailService.deletePlaylist(playlistId.value)
+    showDeleteModal.value = false
+    router.push('/dashboard')
+  } catch (error) {
+    console.error('Error deleting playlist:', error)
+  } finally {
+    isDeleting.value = false
+  }
 }
 
 const formatTrackDuration = (milliseconds) => {
@@ -432,7 +445,7 @@ const getMoodEmoji = (mood) => getMoodEmojiUtil(mood)
     <!-- Delete Modal -->
     <div
         v-if="showDeleteModal"
-        @click="showDeleteModal = false"
+        @click="!isDeleting && (showDeleteModal = false)"
         class="flex fixed inset-0 z-50 justify-center items-center px-4 animate-fade-in"
         style="background-color: rgba(0, 0, 0, 0.2);"
     >
@@ -467,7 +480,7 @@ const getMoodEmoji = (mood) => getMoodEmojiUtil(mood)
 
         <!-- Close Button -->
         <button
-            @click="showDeleteModal = false"
+            @click="!isDeleting && (showDeleteModal = false)"
             class="absolute top-4 right-4 transition-colors cursor-pointer text-silver hover:text-gray"
         >
           <svg
@@ -488,7 +501,7 @@ const getMoodEmoji = (mood) => getMoodEmojiUtil(mood)
 
         <!-- Content -->
         <div class="mb-6 text-center">
-          <h2 class="mb-3 text-2xl font-bold text-black">Delete Session</h2>
+          <h2 class="mb-3 text-2xl font-medium text-black">Delete Session</h2>
           <p class="text-muted">
             Are you sure you want to delete this session? This action cannot be
             undone.
@@ -498,16 +511,25 @@ const getMoodEmoji = (mood) => getMoodEmojiUtil(mood)
         <!-- Action Buttons -->
         <div class="flex space-x-3">
           <button
-              @click="showDeleteModal = false"
-              class="flex-1 px-6 py-3 font-semibold rounded-lg border-2 transition-all duration-300 cursor-pointer text-gray bg-background-white border-border hover:bg-background-soft hover:shadow-md"
+              @click="!isDeleting && (showDeleteModal = false)"
+              :disabled="isDeleting"
+              class="flex-1 px-6 py-3 font-semibold rounded-lg border-2 transition-all duration-300 cursor-pointer text-gray bg-background-white border-border hover:bg-background-soft hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Cancel
           </button>
           <button
-              @click="deleteSession"
-              class="flex-1 px-6 py-3 font-semibold text-white bg-red-600 rounded-lg transition-all duration-300 cursor-pointer hover:bg-red-700 hover:shadow-lg"
+              @click="deletePlaylist"
+              :disabled="isDeleting"
+              class="flex-1 px-6 py-3 font-semibold text-white bg-red-600 rounded-lg transition-all duration-300 cursor-pointer hover:bg-red-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-red-600 disabled:hover:shadow-none"
           >
-            Delete
+            <span v-if="!isDeleting">Delete</span>
+            <span v-else class="flex justify-center items-center space-x-2">
+              <span
+                class="w-4 h-4 rounded-full border-t-2 border-b-2 border-white animate-spin"
+                aria-hidden="true"
+              ></span>
+              <span>Menghapus...</span>
+            </span>
           </button>
         </div>
       </div>
