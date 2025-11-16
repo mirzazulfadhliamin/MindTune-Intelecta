@@ -14,7 +14,7 @@ export const dashboardService = {
             throw error;
         }
     },
-    
+
     async getDashboardStats() {
         try {
             const { api } = useAuth();
@@ -24,6 +24,16 @@ export const dashboardService = {
             console.error('Error fetching dashboard stats:', error);
             throw error;
         }
-    }
+    },
 
+    async getChartMood() {
+        try {
+            const { api } = useAuth();
+            const response = await api.get(`${API_BASE_URL}/api/playlists/chart/mood`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching chart mood:', error);
+            throw error;
+        }
+    }
 };

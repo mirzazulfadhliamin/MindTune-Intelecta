@@ -22,6 +22,11 @@ import { dashboardService } from '@/services/dashboardService'
 import StatsCards from '@/views/Healing/dashboard/dashboard-component/StatsCards.vue'
 import SessionHistory from '@/views/Healing/dashboard/dashboard-component/SessionHistory.vue'
 
+onMounted(() => {
+  fetchDashboardData()
+  getChartMood()
+})
+
 const sessions = ref([])
 const stats = ref({
   total_sessions: 0,
@@ -65,11 +70,16 @@ const fetchDashboardData = async () => {
   }
 }
 
+const getChartMood = async () => {
+  try {
+    const chartData = await dashboardService.getChartMood()
+    console.log('Chart Mood Data:', chartData)
+  } catch (error) {
+    console.error('Error fetching chart mood:', error)
+  }
+}
+
 const goToDetail = (id) => {
   router.push(`/playlist-detail?id=${id}`)
 }
-
-onMounted(() => {
-  fetchDashboardData()
-})
 </script>
