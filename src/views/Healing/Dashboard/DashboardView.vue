@@ -1,26 +1,10 @@
-<template>
-  <div class="min-h-screen bg-background-white">
-    <div class="px-4 py-8 mx-auto mt-16 max-w-7xl">
-      <!-- Header -->
-      <h1 class="mb-8 text-4xl font-bold transition-colors duration-500 text-primary-health">
-        Dashboard
-      </h1>
-
-      <!-- Stats Cards -->
-      <StatsCards :is-loading="isLoading" :stats="stats" />
-
-      <!-- Session History -->
-      <SessionHistory :is-loading="isLoading" :sessions="sessions" @select="goToDetail" />
-    </div>
-  </div>
-</template>
-
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { dashboardService } from '@/services/dashboardService'
-import StatsCards from '@/views/Healing/dashboard/dashboard-component/StatsCards.vue'
 import SessionHistory from '@/views/Healing/dashboard/dashboard-component/SessionHistory.vue'
+import ChartMoodProgress from '@/views/Healing/dashboard/dashboard-component/ChartMoodProgress.vue'
+import CardSummary from './dashboard-component/CardSummary.vue'
 
 onMounted(() => {
   fetchDashboardData()
@@ -36,6 +20,11 @@ const stats = ref({
 const isLoading = ref(true)
 
 const router = useRouter()
+
+// Chart Mood State
+const chartMoodData = ref([])
+const isChartLoading = ref(false)
+const chartError = ref('')
 
 const fetchDashboardData = async () => {
   isLoading.value = true
@@ -71,11 +60,25 @@ const fetchDashboardData = async () => {
 }
 
 const getChartMood = async () => {
+  isChartLoading.value = true
+  chartError.value = ''
   try {
     const chartData = await dashboardService.getChartMood()
-    console.log('Chart Mood Data:', chartData)
+    // Normalize data: ensure integers and sort by sequence_number
+    const normalized = (Array.isArray(chartData) ? chartData : [])
+      .map((d) => ({
+        sequence_number: Number(d.sequence_number),
+        pre_mood: Number(d.pre_mood),
+        post_mood: Number(d.post_mood),
+      }))
+      .sort((a, b) => a.sequence_number - b.sequence_number)
+
+    chartMoodData.value = normalized
   } catch (error) {
     console.error('Error fetching chart mood:', error)
+    chartError.value = 'Gagal memuat data mood.'
+  } finally {
+    isChartLoading.value = false
   }
 }
 
@@ -83,3 +86,27 @@ const goToDetail = (id) => {
   router.push(`/playlist-detail?id=${id}`)
 }
 </script>
+
+<template>
+  <div class="min-h-screen bg-background-white">
+    <div class="px-4 py-8 mx-auto mt-16 max-w-7xl">
+      <!-- Header -->
+      <h1 class="mb-8 text-4xl font-bold transition-colors duration-500 text-primary-health">
+        Dashboard
+      </h1>
+
+      <!-- Card Summary -->
+      <CardSummary :is-loading="isLoading" :stats="stats" />
+
+      <!-- Mood Chart -->
+      <ChartMoodProgress
+        :mood-data="chartMoodData"
+        :is-loading="isChartLoading"
+        :error="chartError"
+      />
+
+      <!-- Session History -->
+      <SessionHistory :is-loading="isLoading" :sessions="sessions" @select="goToDetail" />
+    </div>
+  </div>
+</template>

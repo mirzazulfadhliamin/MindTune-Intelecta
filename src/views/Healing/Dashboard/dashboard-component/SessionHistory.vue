@@ -2,7 +2,7 @@
   <div class="p-8 bg-white rounded-2xl border-1 border-silver">
     <div class="flex items-center mb-6 space-x-2">
       <img src="/src/assets/session.svg" alt="Session Icon" class="w-6 h-6 text-primary-health" />
-      <h2 class="text-xl md:text-2xl font-medium text-primary-health">Session History</h2>
+      <h2 class="text-xl font-medium md:text-2xl text-primary-health">Session History</h2>
     </div>
 
     <!-- Session List -->
@@ -17,19 +17,19 @@
         v-for="session in sessions"
         :key="session.id"
         @click="$emit('select', session.originalId)"
-        class="p-5 rounded-xl transition-colors cursor-pointer border-1 border-silver hover:border-gray flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
+        class="flex flex-col gap-4 p-5 rounded-xl transition-colors cursor-pointer border-1 border-silver hover:border-gray md:flex-row md:items-center md:justify-between"
       >
         <!-- Left: badge + info -->
-        <div class="flex items-start gap-4 md:flex-1">
+        <div class="flex gap-4 items-start md:flex-1">
           <!-- Session Number -->
-          <div class="flex justify-center items-center w-12 h-12 text-base md:text-lg font-normal rounded-full transition-colors duration-500 text-primary-health bg-primary-health/15 shrink-0">
+          <div class="flex justify-center items-center w-12 h-12 text-base font-normal rounded-full transition-colors duration-500 md:text-lg text-primary-health bg-primary-health/15 shrink-0">
             #{{ session.sequence_number }}
           </div>
 
           <!-- Session Info -->
           <div class="flex-1">
-            <h3 class="mb-2 md:mb-3 text-base md:text-lg font-normal text-gray">{{ session.title }}</h3>
-            <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray">
+            <h3 class="mb-2 text-base font-normal md:mb-3 md:text-lg text-gray">{{ session.title }}</h3>
+            <div class="flex flex-wrap gap-y-2 gap-x-4 items-center text-sm text-gray">
               <div class="flex items-center space-x-1">
                 <img src="/src/assets/calendar.svg" alt="Clock Icon" class="w-4 h-4 text-gray" />
                 <span>{{ session.time }}</span>
@@ -44,22 +44,22 @@
         </div>
 
         <!-- Right: mood change + arrow -->
-        <div class="flex items-center gap-4 md:gap-6 md:mr-4">
+        <div class="flex gap-4 items-center md:gap-6 md:mr-4">
           <div class="text-right">
-            <p class="mb-1 text-xs md:text-sm font-normal text-gray-600">Pre Mood</p>
-            <p class="text-base md:text-lg font-medium transition-colors duration-500 text-primary-health">
+            <p class="mb-1 text-xs font-normal text-gray-600 md:text-sm">Pre Mood</p>
+            <p class="text-base font-medium transition-colors duration-500 md:text-lg text-primary-health">
               {{ session.preMood }}/10
             </p>
           </div>
 
-          <span v-if="session.postMood === null" class="text-xl md:text-2xl select-none text-gray">—</span>
+          <span v-if="session.postMood === null" class="text-xl select-none md:text-2xl text-gray">—</span>
           <img v-else-if="session.moodChange > 0" src="/src/assets/chart-up-green.svg" alt="Mood up icon" class="w-5 h-5 md:w-6 md:h-6" />
           <img v-else src="/src/assets/chart-down-red.svg" alt="Mood down icon" class="w-5 h-5 md:w-6 md:h-6" />
 
           <div class="text-right">
             <p class="mb-1 text-xs text-gray-600">Post Mood</p>
             <p
-              class="text-base md:text-lg font-bold"
+              class="text-base font-bold md:text-lg"
               :class="session.postMood !== null ? (session.moodChange > 0 ? 'text-green-600' : 'text-red-600') : 'text-gray-600'"
             >
               {{ session.postMood !== null ? `${session.postMood}/10` : 'Belum disubmit' }}
@@ -67,7 +67,7 @@
           </div>
 
           <!-- Arrow Right (hide on small screens) -->
-          <img src="/src/assets/arrow-right.svg" alt="Arrow Right Icon" class="w-5 h-5 md:w-6 md:h-6 text-text-silver hidden md:block" />
+          <img src="/src/assets/arrow-right.svg" alt="Arrow Right Icon" class="hidden w-5 h-5 md:w-6 md:h-6 text-text-silver md:block" />
         </div>
       </div>
     </div>
