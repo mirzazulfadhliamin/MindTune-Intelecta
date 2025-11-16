@@ -82,7 +82,7 @@
             <!-- Action Buttons -->
             <div class="flex flex-col gap-4 mt-10 md:flex-row">
               <button
-                  @click="$router.back()"
+                  @click="back"
                   class="flex-1 px-6 py-4 text-base font-semibold rounded-lg border-2 transition-all duration-300 cursor-pointer"
                   :class="mode === 'healing'
                     ? 'border-gray-300 text-gray-700 hover:bg-gray-100 hover:shadow-md'
@@ -179,93 +179,68 @@
     </div>
 </template>
 
-<script>
-import {useTheme} from "@/composables/useTheme"
-import { playlistService } from "@/services/playlistService"
+<script setup>
+import { ref, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { useTheme } from '@/composables/useTheme'
 
-export default {
-  name: 'PHQ9Screening',
-  setup() {
-    const {mode} = useTheme()
-    return {mode}
-  },
-  data() {
-    return {
-      showModal: false,
-      answers: Array(9).fill(null),
-      isLoading: false,
-      error: '',
-      options: [
-        { label: 'Tidak Pernah', value: 0 },
-        { label: 'Beberapa Hari', value: 1 },
-        { label: 'Lebih dari separuh waktu yang dimaksud', value: 2 },
-        { label: 'Hampir Setiap Hari', value: 3 }
-      ],
-      questions: [
-        'Kurang berminat atau bergairah dalam melakukan apapun',
-        'Merasa murung, muram, atau putus asa',
-        'Sulit tidur atau mudah terbangun, atau terlalu banyak tidur',
-        'Merasa lelah atau kurang bertenaga',
-        'Kurang nafsu makan atau terlalu banyak makan',
-        'Kurang percaya diri — atau merasa bahwa Anda adalah orang yang gagal atau telah mengecewakan diri sendiri atau keluarga',
-        'Sulit berkonsentrasi pada sesuatu, misalnya membaca koran atau menonton televisi',
-        'Bergerak atau berbicara sangat lambat sehingga orang lain memperhatikannya. Atau sebaliknya — merasa resah atau gelisah sehingga Anda lebih sering bergerak dari biasanya  ',
-        'Merasa lebih baik mati atau ingin melukai diri sendiri dengan cara apapun'
-      ]
-    }
-  },
-  computed: {
-    isFormComplete() {
-      return this.answers.every(answer => answer !== null)
-    },
-    totalScore() {
-      return this.answers.reduce((sum, answer) => sum + answer, 0)
-    }
-  },
- methods: {
-  selectAnswer(questionIndex, value) {
-    this.answers[questionIndex] = value;
-    this.error = ''; // Clear error when user makes changes
-  },
-  
-  async createPlaylist() {
-    if (!this.isFormComplete) {
-      this.error = 'Please answer all questions before creating a playlist.';
-      return;
-    }
+const { mode } = useTheme()
+const router = useRouter()
+const route = useRoute()
 
-    const pre_mood = this.$route.query.pre_mood || localStorage.getItem('pre_mood') || 5;
-    const phq9_score = this.totalScore;
+const showModal = ref(false)
+const answers = ref(Array(9).fill(null))
+const isLoading = ref(false)
+const error = ref('')
 
-    this.isLoading = true;
-    this.error = '';
+const options = [
+  { label: 'Tidak Pernah', value: 0 },
+  { label: 'Beberapa Hari', value: 1 },
+  { label: 'Lebih dari separuh waktu yang dimaksud', value: 2 },
+  { label: 'Hampir Setiap Hari', value: 3 },
+]
 
-    try {
-      // Panggil API create playlist
-      const response = await playlistService.createPlaylist(pre_mood, phq9_score);
+const questions = [
+  'Kurang berminat atau bergairah dalam melakukan apapun',
+  'Merasa murung, muram, atau putus asa',
+  'Sulit tidur atau mudah terbangun, atau terlalu banyak tidur',
+  'Merasa lelah atau kurang bertenaga',
+  'Kurang nafsu makan atau terlalu banyak makan',
+  'Kurang percaya diri — atau merasa bahwa Anda adalah orang yang gagal atau telah mengecewakan diri sendiri atau keluarga',
+  'Sulit berkonsentrasi pada sesuatu, misalnya membaca koran atau menonton televisi',
+  'Bergerak atau berbicara sangat lambat sehingga orang lain memperhatikannya. Atau sebaliknya — merasa resah atau gelisah sehingga Anda lebih sering bergerak dari biasanya',
+  'Merasa lebih baik mati atau ingin melukai diri sendiri dengan cara apapun',
+]
 
-      // Simpan hasil ke localStorage (optional)
-      localStorage.setItem('phq9_score', phq9_score);
-      localStorage.setItem('pre_mood', pre_mood);
-      localStorage.setItem('playlist_result', JSON.stringify(response));
+const isFormComplete = computed(() => answers.value.every((a) => a !== null))
+const totalScore = computed(() => answers.value.reduce((sum, a) => sum + a, 0))
 
-      // Ambil id playlist dari response (jika ada)
-      const playlistId = response?.data?.id || response?.id || null;
-
-      // Navigasi ke halaman hasil playlist
-      this.$router.push({
-        name: 'playlist-result',
-        query: { id: playlistId }
-      });
-    } catch (err) {
-      console.error(err);
-      this.error = err.response?.data?.message || 'Failed to create playlist. Please try again.';
-    } finally {
-      this.isLoading = false;
-    }
-  }
+const selectAnswer = (questionIndex, value) => {
+  answers.value[questionIndex] = value
+  error.value = ''
 }
 
+const back = () => {
+  router.back()
+}
+
+const createPlaylist = async () => {
+  if (!isFormComplete.value) {
+    error.value = 'Please answer all questions before creating a playlist.'
+    return
+  }
+
+  const pre_mood = route.query.pre_mood || localStorage.getItem('pre_mood') || 5
+  const phq9_score = totalScore.value
+
+  try {
+    localStorage.setItem('phq9_score', phq9_score)
+    localStorage.setItem('pre_mood', pre_mood)
+    router.push({ name: 'loading-animation' })
+  } catch (err) {
+    console.error(err)
+    error.value = err.response?.data?.message || 'Failed to create playlist. Please try again.'
+  }
 }
 </script>
 
