@@ -27,11 +27,11 @@
   --color-background-white: #FBFBFB;
   --color-background-soft: #F3F4F6;
 
-  --color-text-white: #FFFFFF;
-  --color-text-gray: #374151;
-  --color-text-black: #1F2937;
-  --color-text-silver: #ACB5BB;
-  --color-text-muted: #9CA3AF;
+  --color-white: #FFFFFF;
+  --color-gray: #374151;
+  --color-black: #1F2937;
+  --color-silver: #ACB5BB;
+  --color-muted: #9CA3AF;
 
   --gradient-primary: linear-gradient(90deg, #60A5FA, #2F80ED);
   --gradient-success: linear-gradient(90deg, #86EFAC, #22C55E);
