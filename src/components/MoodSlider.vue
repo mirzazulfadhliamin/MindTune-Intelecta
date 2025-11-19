@@ -66,7 +66,7 @@ const thumbStyle = computed(() => ({
       >
         {{ currentEmoji }}
       </div>
-      <p class="text-lg font-medium text-text-gray">
+      <p class="text-lg font-medium text-gray">
         {{ currentMoodLabel }}
       </p>
     </div>
