@@ -3,8 +3,8 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { dashboardService } from '@/services/dashboardService'
 import { formattedGenres } from '@/utils/utils'
-import SessionHistory from '@/views/Healing/dashboard/dashboard-component/SessionHistory.vue'
-import ChartMoodProgress from '@/views/Healing/dashboard/dashboard-component/ChartMoodProgress.vue'
+import SessionHistory from '@/views/Healing/Dashboard/dashboard-component/SessionHistory.vue'
+import ChartMoodProgress from '@/views/Healing/Dashboard/dashboard-component/ChartMoodProgress.vue'
 import CardSummary from './dashboard-component/CardSummary.vue'
 
 onMounted(() => {
