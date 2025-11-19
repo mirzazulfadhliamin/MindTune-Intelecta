@@ -44,7 +44,7 @@ const handleSubmit = async () => {
           <h2 class="mb-2 text-2xl font-bold text-black">
             Bagaimana Perasaan Kamu Saat Ini?
           </h2>
-          <p class="text-text-gray">
+          <p class="text-gray">
             Masukan Anda membantu kami mempersonalisasi perjalanan penyembuhan Anda dengan lebih baik. Luangkan waktu sejenak untuk merenungkan keadaan Anda saat ini
           </p>
         </div>
@@ -61,7 +61,7 @@ const handleSubmit = async () => {
             rows="4"
             maxlength="500"
             :disabled="isSubmitting"
-            class="p-4 mt-2 w-full rounded-xl border border-gray-300 transition-colors outline-none resize-none focus:ring-2 focus:ring-silver focus:border-silver disabled:bg-background-soft disabled:text-text-silver disabled:cursor-not-allowed"
+            class="p-4 mt-2 w-full rounded-xl border border-gray-300 transition-colors outline-none resize-none focus:ring-2 focus:ring-  focus:border-silver disabled:bg-background-soft disabled:text-text-silver disabled:cursor-not-allowed"
           ></textarea>
           <div class="text-sm text-right text-text-silver">
             {{ description.length }}/500 karakter
