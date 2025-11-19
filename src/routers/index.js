@@ -4,16 +4,16 @@ import { createRouter, createWebHistory } from 'vue-router';
 import UserLayout from '@/views/layouts/UserLayout.vue';
 
 import HomeView from '@/views/layouts/HomeLayout.vue';
-import MoodSlider from '@/views/healing/MoodSliderView.vue';
+import MoodSlider from '@/views/Healing/MoodSliderView.vue';
 import PageNotFound from '@/views/error/PageNotFound.vue';
-import QuestionnaireView from "@/views/healing/QuestionnaireView.vue";
-import ProfessionalConsultationView from "@/views/healing/ProfessionalConsultationView.vue";
-import PlaylistDetailView from "@/views/healing/PlaylistDetailView.vue";
-import DashboardView from "@/views/healing/dashboard/DashboardView.vue";
-import PlaylistResult from "@/views/healing/PlaylistResultView.vue";
-import FeedbackView from '@/views/healing/FeedbackView.vue';
-import CallbackView from '@/views/healing/CallbackView.vue';
-import LoadingAnimationView from '@/views/healing/LoadingAnimationView.vue';
+import QuestionnaireView from "@/views/Healing/QuestionnaireView.vue";
+import ProfessionalConsultationView from "@/views/Healing/ProfessionalConsultationView.vue";
+import PlaylistDetailView from "@/views/Healing/PlaylistDetailView.vue";
+import DashboardView from "@/views/Healing/dashboard/DashboardView.vue";
+import PlaylistResult from "@/views/Healing/PlaylistResultView.vue";
+import FeedbackView from '@/views/Healing/FeedbackView.vue';
+import CallbackView from '@/views/Healing/CallbackView.vue';
+import LoadingAnimationView from '@/views/Healing/LoadingAnimationView.vue';
 
 const routes = [
   {
