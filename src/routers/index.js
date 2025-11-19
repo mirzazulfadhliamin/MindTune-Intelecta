@@ -9,7 +9,7 @@ import PageNotFound from '@/views/error/PageNotFound.vue';
 import QuestionnaireView from "@/views/Healing/QuestionnaireView.vue";
 import ProfessionalConsultationView from "@/views/Healing/ProfessionalConsultationView.vue";
 import PlaylistDetailView from "@/views/Healing/PlaylistDetailView.vue";
-import DashboardView from "@/views/Healing/dashboard/DashboardView.vue";
+import DashboardView from "@/views/Healing/Dashboard/DashboardView.vue";
 import PlaylistResult from "@/views/Healing/PlaylistResultView.vue";
 import FeedbackView from '@/views/Healing/FeedbackView.vue';
 import CallbackView from '@/views/Healing/CallbackView.vue';
