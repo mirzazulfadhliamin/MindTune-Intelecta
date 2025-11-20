@@ -30,7 +30,7 @@ const routes = [
         path: '/callback',
         name: 'callback',
         component: CallbackView,
-        meta: { title: 'Login Callback' }
+        meta: { title: 'Login Callback', hideNavbar: true }
       },
       {
         path: '/questionnaire',

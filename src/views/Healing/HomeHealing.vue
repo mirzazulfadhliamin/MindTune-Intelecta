@@ -20,6 +20,8 @@ export default {
     }
   },
   mounted() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
     const notes = []
     const minDistance = 15
     const totalNotes = 30
@@ -74,7 +76,7 @@ export default {
     </div>
 
     <!-- Pulsing Music Notes -->
-    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="overflow-hidden fixed inset-0 pointer-events-none">
       <div
           v-for="note in musicNotes"
           :key="note.id"
@@ -96,7 +98,7 @@ export default {
       </div>
     </div>
 
-    <div class="relative flex justify-center items-center px-4 py-8 min-h-screen">
+    <div class="flex relative justify-center items-center px-4 py-8 min-h-screen">
       <div class="w-full max-w-2xl">
         <!-- Card -->
         <div class="p-8 md:p-12 text-center rounded-3xl backdrop-blur-sm bg-white/80 animate-card-entrance shadow-[0_0_50px_25px_rgba(47,128,237,0.15)] my-auto">
@@ -111,7 +113,7 @@ export default {
           </p>
           <button
               @click="navigateToMoodSlider"
-              class="cursor-pointer flex items-center px-8 py-4 mx-auto space-x-3 text-lg font-semibold text-white rounded-full bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 shadow-lg shadow-blue-500/50 hover:shadow-xl hover:shadow-blue-500/60 transition-all duration-500"          >
+              class="flex items-center px-8 py-4 mx-auto space-x-3 text-lg font-semibold text-white bg-gradient-to-r from-blue-400 to-blue-600 rounded-full shadow-lg transition-all duration-500 cursor-pointer hover:from-blue-500 hover:to-blue-700 shadow-blue-500/50 hover:shadow-xl hover:shadow-blue-500/60"          >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
