@@ -10,7 +10,7 @@ import { useAuth } from "@/composables/useAuth"
 const route = useRoute()
 const router = useRouter()
 const { mode } = useTheme()
-const { isAuthenticated, getLoginUrl, getUserProfile } = useAuth()
+const { isAuthenticated, getLoginUrl, getUserProfile, logout } = useAuth()
 
 const isLogin = ref(false)
 const showUserMenu = ref(false)
@@ -30,6 +30,12 @@ const updateLoginStatus = async () => {
       }
     } catch (error) {
       console.error('Error fetching user profile:', error)
+      // Jika gagal mendapatkan profil (mis. token invalid/CORS), paksa logout dan fallback ke tombol login
+      logout()
+      isLogin.value = false
+      showUserMenu.value = false
+      userName.value = 'User'
+      userInitial.value = 'U'
     }
   }
 }
@@ -68,7 +74,6 @@ const handleLogin = async () => {
 }
 
 const handleLogout = () => {
-  const { logout } = useAuth()
   logout()
   isLogin.value = false
   showUserMenu.value = false

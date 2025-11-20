@@ -42,12 +42,12 @@ onMounted(async () => {
 
 <template>
   <div class="flex flex-col justify-center items-center px-4 min-h-screen bg-background">
-    <div class="p-8 space-y-8 w-full max-w-md bg-background rounded-lg shadow-md">
+    <div class="p-8 space-y-8 w-full max-w-md rounded-lg bg-background shadow-full-blur">
       <div class="text-center">
-        <h2 v-if="!error" class="mt-6 text-3xl font-bold primary-health">Login Berhasil!</h2>
+        <h2 v-if="!error" class="mt-6 text-3xl font-bold text-primary-health">Login Berhasil!</h2>
         <h2 v-else class="mt-6 text-3xl font-bold text-danger">Login Gagal</h2>
         
-        <p v-if="!error" class="mt-3 text-sm primary-health">
+        <p v-if="!error" class="mt-3 text-sm text-primary-health">
           Anda telah berhasil login dengan Spotify. Anda akan dialihkan ke halaman utama dalam beberapa saat.
         </p>
         <p v-else class="mt-3 text-sm text-danger">
@@ -56,7 +56,7 @@ onMounted(async () => {
         </p>
       </div>
       <div class="flex justify-center mt-8">
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2" 
+        <div class="w-12 h-12 rounded-full border-t-2 border-b-2 animate-spin" 
              :class="{'border-primary-health': !error, 'border-danger': error}"></div>
       </div>
     </div>
