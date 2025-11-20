@@ -55,6 +55,12 @@ const createPlaylist = async () => {
   try {
     localStorage.setItem('phq9_score', phq9_score)
     localStorage.setItem('pre_mood', pre_mood)
+    if (phq9_score >= 20) {
+      router.push({
+        name: 'professional-consultation'
+      })
+      return
+    }
     router.push({ 
       name: 'loading-animation' 
     })
@@ -68,7 +74,7 @@ const createPlaylist = async () => {
 <template>
     <div class="flex justify-center items-center px-4 py-20 h-fit">
       <div class="w-full max-w-4xl">
-        <div class="p-8 bg-white rounded-3xl shadow-lg md:p-12 animate-card-entrance">
+        <div class="p-8 bg-white rounded-3xl shadow-full-blur md:p-12 animate-card-entrance">
           <div
               class="px-6 py-6 mb-4 rounded-2xl border transition-colors duration-500"
               :class="mode === 'healing' ? 'bg-blue-50 border-blue-100' : 'bg-orange-50 border-orange-100'"
