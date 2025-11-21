@@ -1,15 +1,36 @@
 <script>
 export default {
   name: 'SupportPage',
+  data() {
+    return {
+      score: null,
+    };
+  },
   mounted() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    const stored = localStorage.getItem('phq9_score');
+    this.score = stored !== null ? Number(stored) : null;
+  },
+  computed: {
+    severityLabel() {
+      const s = this.score;
+      if (s === null || isNaN(s)) return 'Skor tidak tersedia';
+      if (s <= 4) return 'Minimal';
+      if (s <= 9) return 'Ringan';
+      if (s <= 14) return 'Sedang';
+      if (s <= 19) return 'Cukup Berat';
+      return 'Parah - Butuh Bantuan Profesional';
+    },
+    displayScore() {
+      return this.score !== null && !isNaN(this.score) ? this.score : '--';
+    }
   },
   methods: {
     callCrisis() {
       window.location.href = 'tel:112';
     },
     findTherapist() {
-      window.open('https://www.google.com/search?q=terapis+terdekat', '_blank');
+      window.open('https://www.halodoc.com/tanya-dokter/kategori/psikolog-klinis', '_blank');
     },
     goHome() {
       this.$router.push('/');
@@ -54,8 +75,8 @@ export default {
               </div>
             </div>
             <p class="mb-1 font-semibold text-gray">Tingkat Depresi</p>
-            <p class="mb-3 text-sm font-bold text-red-600">Parah - Butuh Bantuan Profesional</p>
-            <p class="text-4xl font-bold text-red-600">22/27</p>
+            <p class="mb-3 text-sm font-bold text-red-600">{{ severityLabel }}</p>
+            <p class="text-4xl font-bold text-red-600">{{ displayScore }}/27</p>
           </div>
 
           <div class="grid gap-6 mb-6 md:grid-cols-2">
@@ -69,7 +90,7 @@ export default {
                   @click="callCrisis"
                   class="px-6 py-3 w-full font-semibold text-white bg-red-600 rounded-lg transition-all duration-300 cursor-pointer hover:bg-red-700 hover:shadow-lg"
               >
-                Hubungi Hotline Krisis
+                Hubungi Hotline Krisis (122)
               </button>
             </div>
 
@@ -83,7 +104,7 @@ export default {
                   @click="findTherapist"
                   class="px-6 py-3 w-full font-semibold text-white bg-blue-500 rounded-lg transition-all duration-300 cursor-pointer hover:bg-blue-600 hover:shadow-lg"
               >
-                Cari Terapis di Sekitarmu
+                Konsultasi Psikolog di Halodoc
               </button>
             </div>
           </div>

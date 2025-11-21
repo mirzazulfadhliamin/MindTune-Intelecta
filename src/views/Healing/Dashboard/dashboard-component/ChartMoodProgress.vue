@@ -39,7 +39,7 @@ const chartOptions = ref({
   colors: ['#EF4444', '#22C55E'], // pre: red, post: green
   xaxis: { categories: [] },
   yaxis: {
-    min: 1,
+    min: 0,
     max: 10,
     tickAmount: 6,
     labels: { formatter: (val) => Math.round(val) },
