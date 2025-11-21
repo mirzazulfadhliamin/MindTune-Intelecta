@@ -1,14 +1,25 @@
 <script>
 import { useTheme } from "@/composables/useTheme"
 import { useRouter } from "vue-router"
+import { useAuth } from "@/composables/useAuth"
 
 export default {
   name: 'HealingModePage',
   setup() {
     const { mode } = useTheme()
     const router = useRouter()
+    const { isAuthenticated, getLoginUrl } = useAuth()
 
-    const navigateToMoodSlider = () => {
+    const navigateToMoodSlider = async () => {
+      try {
+        if (!isAuthenticated()) {
+          const auth_url = await getLoginUrl()
+          window.location.href = auth_url
+          return
+        }
+      } catch (error) {
+        console.error('Error during login redirect:', error)
+      }
       router.push('/mood-slider')
     }
 
